@@ -6,8 +6,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
-public abstract class TMContainer
-extends Container {
+public abstract class TMContainer extends Container {
+
     public InventoryPlayer playerInv;
     int xs;
     int ys;
@@ -22,11 +22,12 @@ extends Container {
         int i;
         for (i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot((IInventory)this.playerInv, j + i * 9 + 9, this.xs + j * 18, this.ys + i * 18));
+                this.addSlotToContainer(
+                    new Slot((IInventory) this.playerInv, j + i * 9 + 9, this.xs + j * 18, this.ys + i * 18));
             }
         }
         for (i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot((IInventory)this.playerInv, i, this.xs + i * 18, this.ys + 58));
+            this.addSlotToContainer(new Slot((IInventory) this.playerInv, i, this.xs + i * 18, this.ys + 58));
         }
     }
 
@@ -51,4 +52,3 @@ extends Container {
         this.setStartPosY(this.ys + offset);
     }
 }
-

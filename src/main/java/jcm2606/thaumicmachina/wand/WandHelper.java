@@ -2,18 +2,21 @@
 package jcm2606.thaumicmachina.wand;
 
 import java.util.HashMap;
-import jcm2606.thaumicmachina.core.crafting.infusion.RecipeInfusionWandAugmentation;
-import jcm2606.thaumicmachina.core.helper.NBTHelper;
-import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+
+import jcm2606.thaumicmachina.core.crafting.infusion.RecipeInfusionWandAugmentation;
+import jcm2606.thaumicmachina.core.helper.NBTHelper;
+import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.crafting.InfusionRecipe;
 
 public class WandHelper {
+
     public static final HashMap<String, IAugmentationWand> augmentationMap = new HashMap();
 
     public static void registerAugmentation(IAugmentationWand augmentation) {
@@ -27,7 +30,7 @@ public class WandHelper {
     }
 
     public static ItemStack buildWandItemStackWithAugmentations(IAugmentationWand[] augmentations) {
-        ItemStack stack = ItemApi.getItem((String)"itemWandCasting", (int)Short.MAX_VALUE);
+        ItemStack stack = ItemApi.getItem((String) "itemWandCasting", (int) Short.MAX_VALUE);
         WandHelper.addAugmentationsTo(stack, augmentations, false);
         return stack;
     }
@@ -72,7 +75,8 @@ public class WandHelper {
         return slist;
     }
 
-    public static ItemStack addAugmentationsTo(ItemStack inputStack, IAugmentationWand[] augmentations, boolean duplicateItemStack) {
+    public static ItemStack addAugmentationsTo(ItemStack inputStack, IAugmentationWand[] augmentations,
+        boolean duplicateItemStack) {
         ItemStack stack = inputStack;
         if (duplicateItemStack) {
             stack = inputStack.copy();
@@ -84,13 +88,14 @@ public class WandHelper {
         }
         for (IAugmentationWand augmentation : augmentations) {
             NBTTagString tag = new NBTTagString(augmentation.getAugmentationName());
-            list.appendTag((NBTBase)tag);
+            list.appendTag((NBTBase) tag);
         }
-        compound.setTag("Augmentations", (NBTBase)list);
+        compound.setTag("Augmentations", (NBTBase) list);
         return stack;
     }
 
-    public static ItemStack removeAugmentationsFrom(ItemStack inputStack, IAugmentationWand[] augmentations, boolean duplicateItemStack) {
+    public static ItemStack removeAugmentationsFrom(ItemStack inputStack, IAugmentationWand[] augmentations,
+        boolean duplicateItemStack) {
         ItemStack stack = inputStack;
         if (duplicateItemStack) {
             stack = inputStack.copy();
@@ -107,8 +112,7 @@ public class WandHelper {
                 list.removeTag(i);
             }
         }
-        compound.setTag("Augmentations", (NBTBase)list);
+        compound.setTag("Augmentations", (NBTBase) list);
         return stack;
     }
 }
-

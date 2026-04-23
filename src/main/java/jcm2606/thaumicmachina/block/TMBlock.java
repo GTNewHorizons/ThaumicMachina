@@ -1,16 +1,17 @@
 
 package jcm2606.thaumicmachina.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import jcm2606.thaumicmachina.ThaumicMachina;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
-public class TMBlock
-extends Block {
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import jcm2606.thaumicmachina.ThaumicMachina;
+
+public class TMBlock extends Block {
+
     public IIcon customIcon;
     public String name;
     public String texture;
@@ -34,12 +35,12 @@ extends Block {
         this.setCreativeTab(ThaumicMachina.tab);
     }
 
-    @SideOnly(value=Side.CLIENT)
+    @SideOnly(value = Side.CLIENT)
     public void registerBlockIcons(IIconRegister register) {
         this.customIcon = register.registerIcon("thaumicmachina:" + this.texture);
     }
 
-    @SideOnly(value=Side.CLIENT)
+    @SideOnly(value = Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         return this.customIcon;
     }
@@ -56,4 +57,3 @@ extends Block {
         return this.renderAsNormalBlock;
     }
 }
-

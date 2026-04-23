@@ -1,19 +1,19 @@
 
 package jcm2606.thaumicmachina.asm;
 
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import jcm2606.thaumicmachina.asm.TMClassTransformer;
 
-public class TMFMLLoadingPlugin
-implements IFMLLoadingPlugin {
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+
+public class TMFMLLoadingPlugin implements IFMLLoadingPlugin {
+
     public static File location;
 
     public String[] getASMTransformerClass() {
-        return new String[]{TMClassTransformer.class.getName()};
+        return new String[] { TMClassTransformer.class.getName() };
     }
 
     public String getModContainerClass() {
@@ -25,7 +25,7 @@ implements IFMLLoadingPlugin {
     }
 
     public void injectData(Map<String, Object> data) {
-        location = (File)data.get("coremodLocation");
+        location = (File) data.get("coremodLocation");
     }
 
     public String getAccessTransformerClass() {
@@ -38,4 +38,3 @@ implements IFMLLoadingPlugin {
         System.out.println("[" + dateFormat.format(date) + "] [ThaumicMachina] [" + type + "] " + message);
     }
 }
-

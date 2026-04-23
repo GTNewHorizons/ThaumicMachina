@@ -3,28 +3,30 @@ package jcm2606.thaumicmachina.research;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import jcm2606.thaumicmachina.research.ResearchHelper;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategoryList;
 import thaumcraft.api.research.ResearchItem;
 
-public class DupResearchItem
-extends ResearchItem {
+public class DupResearchItem extends ResearchItem {
+
     public ResearchItem parentItem;
 
     public DupResearchItem(String key, String category, String parent, String parentCategory, int x, int y) {
         super("@" + key, category, new AspectList(), x, y, 1, ResearchHelper.getResearchIcon(parent, parentCategory));
-        this.parentItem = (ResearchItem)((ResearchCategoryList)ResearchCategories.researchCategories.get((Object)parentCategory)).research.get(parent);
+        this.parentItem = (ResearchItem) ((ResearchCategoryList) ResearchCategories.researchCategories
+            .get((Object) parentCategory)).research.get(parent);
         this.setDuplicate();
         this.setPages(this.parentItem.getPages());
         this.setStub();
         this.setHidden();
     }
 
-    public DupResearchItem(String key, String category, String parent, String parentCategory, int x, int y, boolean useItemAsIcon) {
+    public DupResearchItem(String key, String category, String parent, String parentCategory, int x, int y,
+        boolean useItemAsIcon) {
         super("@" + key, category, new AspectList(), x, y, 1, ResearchHelper.getResearchItem(parent, parentCategory));
-        this.parentItem = (ResearchItem)((ResearchCategoryList)ResearchCategories.researchCategories.get((Object)parentCategory)).research.get(parent);
+        this.parentItem = (ResearchItem) ((ResearchCategoryList) ResearchCategories.researchCategories
+            .get((Object) parentCategory)).research.get(parent);
         this.setDuplicate();
         this.setPages(this.parentItem.getPages());
         this.setStub();
@@ -33,7 +35,7 @@ extends ResearchItem {
 
     public void setDuplicate() {
         if (this.parentItem.siblings == null) {
-            this.parentItem.setSiblings(new String[]{this.key});
+            this.parentItem.setSiblings(new String[] { this.key });
             return;
         }
         String[] siblings_ = new String[this.parentItem.siblings.length + 1];
@@ -44,14 +46,13 @@ extends ResearchItem {
         this.parentItem.setSiblings(siblings_);
     }
 
-    @SideOnly(value=Side.CLIENT)
+    @SideOnly(value = Side.CLIENT)
     public String getName() {
         return this.parentItem.getName();
     }
 
-    @SideOnly(value=Side.CLIENT)
+    @SideOnly(value = Side.CLIENT)
     public String getText() {
         return this.parentItem.getName();
     }
 }
-

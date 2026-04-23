@@ -1,16 +1,17 @@
 
 package jcm2606.thaumicmachina.wand.augmentation;
 
-import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+
+import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.WandRod;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
-public class AugmentationContactDischarge
-implements IAugmentationWand {
+public class AugmentationContactDischarge implements IAugmentationWand {
+
     @Override
     public String getAugmentationName() {
         return "Contact Discharge";
@@ -33,12 +34,16 @@ implements IAugmentationWand {
 
     @Override
     public AspectList getInfusionAspects() {
-        return new AspectList().add(Aspect.DARKNESS, 8).add(Aspect.WEAPON, 32).add(Aspect.TOOL, 16).add(Aspect.MAGIC, 24).add(Aspect.ENERGY, 16);
+        return new AspectList().add(Aspect.DARKNESS, 8)
+            .add(Aspect.WEAPON, 32)
+            .add(Aspect.TOOL, 16)
+            .add(Aspect.MAGIC, 24)
+            .add(Aspect.ENERGY, 16);
     }
 
     @Override
     public ItemStack[] getInfusionComponents() {
-        return new ItemStack[]{new ItemStack(Blocks.cactus, 1)};
+        return new ItemStack[] { new ItemStack(Blocks.cactus, 1) };
     }
 
     @Override
@@ -52,7 +57,5 @@ implements IAugmentationWand {
     }
 
     @Override
-    public void handleAugmentation(ItemStack stack, ItemWandCasting wand) {
-    }
+    public void handleAugmentation(ItemStack stack, ItemWandCasting wand) {}
 }
-

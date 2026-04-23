@@ -1,16 +1,17 @@
 
 package jcm2606.thaumicmachina.wand.augmentation;
 
-import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import net.minecraft.item.ItemStack;
+
+import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.WandRod;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
-public class AugmentationChargeBuffer
-implements IAugmentationWand {
+public class AugmentationChargeBuffer implements IAugmentationWand {
+
     @Override
     public String getAugmentationName() {
         return "Charge Buffer";
@@ -33,17 +34,19 @@ implements IAugmentationWand {
 
     @Override
     public AspectList getInfusionAspects() {
-        return new AspectList().add(Aspect.TOOL, 16).add(Aspect.MAGIC, 24).add(Aspect.ENERGY, 32).add(Aspect.VOID, 48);
+        return new AspectList().add(Aspect.TOOL, 16)
+            .add(Aspect.MAGIC, 24)
+            .add(Aspect.ENERGY, 32)
+            .add(Aspect.VOID, 48);
     }
 
     @Override
     public ItemStack[] getInfusionComponents() {
-        return new ItemStack[]{ItemApi.getBlock((String)"blockMagicalLog", (int)1)};
+        return new ItemStack[] { ItemApi.getBlock((String) "blockMagicalLog", (int) 1) };
     }
 
     @Override
-    public void handleAugmentation(ItemStack stack, ItemWandCasting wand) {
-    }
+    public void handleAugmentation(ItemStack stack, ItemWandCasting wand) {}
 
     @Override
     public IAugmentationWand[] getPrerequisiteAugmentations() {
@@ -55,4 +58,3 @@ implements IAugmentationWand {
         return true;
     }
 }
-

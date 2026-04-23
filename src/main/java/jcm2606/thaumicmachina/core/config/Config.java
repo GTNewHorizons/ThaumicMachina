@@ -1,12 +1,13 @@
 
 package jcm2606.thaumicmachina.core.config;
 
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import jcm2606.thaumicmachina.core.config.Settings;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+
 public class Config {
+
     public Configuration config;
     protected static final String CATEGORY_RESEARCH = "RESEARCH";
 
@@ -20,4 +21,3 @@ public class Config {
         Settings.conceptResearchMode = conceptResearchModeProp.getInt(0);
     }
 }
-

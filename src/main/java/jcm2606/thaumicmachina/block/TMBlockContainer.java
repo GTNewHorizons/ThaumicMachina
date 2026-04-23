@@ -1,8 +1,6 @@
 
 package jcm2606.thaumicmachina.block;
 
-import jcm2606.thaumicmachina.block.TMBlock;
-import jcm2606.thaumicmachina.tile.TMTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -12,9 +10,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class TMBlockContainer
-extends TMBlock
-implements ITileEntityProvider {
+import jcm2606.thaumicmachina.tile.TMTileEntity;
+
+public abstract class TMBlockContainer extends TMBlock implements ITileEntityProvider {
+
     public TMBlockContainer(String name, Material mat) {
         super(name, mat);
         double d = 1.0;
@@ -41,46 +40,47 @@ implements ITileEntityProvider {
 
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbourBlock) {
         if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TMTileEntity) {
-            ((TMTileEntity)world.getTileEntity(x, y, z)).onNeighborBlockChange(world, x, y, z, neighbourBlock);
+            ((TMTileEntity) world.getTileEntity(x, y, z)).onNeighborBlockChange(world, x, y, z, neighbourBlock);
         }
     }
 
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7,
+        float par8, float par9) {
         if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TMTileEntity) {
-            ((TMTileEntity)world.getTileEntity(x, y, z)).onBlockActivated(world, x, y, z, player, side, par7, par8, par9);
+            ((TMTileEntity) world.getTileEntity(x, y, z))
+                .onBlockActivated(world, x, y, z, player, side, par7, par8, par9);
         }
         return false;
     }
 
     public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
         if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TMTileEntity) {
-            ((TMTileEntity)world.getTileEntity(x, y, z)).onEntityWalking(world, x, y, z, entity);
+            ((TMTileEntity) world.getTileEntity(x, y, z)).onEntityWalking(world, x, y, z, entity);
         }
     }
 
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
         if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TMTileEntity) {
-            ((TMTileEntity)world.getTileEntity(x, y, z)).onBlockClicked(world, x, y, z, player);
+            ((TMTileEntity) world.getTileEntity(x, y, z)).onBlockClicked(world, x, y, z, player);
         }
     }
 
     public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
         if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TMTileEntity) {
-            return ((TMTileEntity)world.getTileEntity(x, y, z)).isProvidingWeakPower(world, x, y, z, side);
+            return ((TMTileEntity) world.getTileEntity(x, y, z)).isProvidingWeakPower(world, x, y, z, side);
         }
         return 0;
     }
 
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
         if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TMTileEntity) {
-            ((TMTileEntity)world.getTileEntity(x, y, z)).onEntityCollidedWithBlock(world, x, y, z, entity);
+            ((TMTileEntity) world.getTileEntity(x, y, z)).onEntityCollidedWithBlock(world, x, y, z, entity);
         }
     }
 
     public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
         if (world.getTileEntity(x, y, z) instanceof TMTileEntity) {
-            ((TMTileEntity)world.getTileEntity(x, y, z)).onBlockDestroyedByPlayer(world, x, y, z, meta);
+            ((TMTileEntity) world.getTileEntity(x, y, z)).onBlockDestroyedByPlayer(world, x, y, z, meta);
         }
     }
 }
-

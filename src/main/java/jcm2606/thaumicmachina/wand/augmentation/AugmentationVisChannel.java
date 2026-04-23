@@ -1,16 +1,17 @@
 
 package jcm2606.thaumicmachina.wand.augmentation;
 
-import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import net.minecraft.item.ItemStack;
+
+import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.WandRod;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
-public class AugmentationVisChannel
-implements IAugmentationWand {
+public class AugmentationVisChannel implements IAugmentationWand {
+
     @Override
     public String getAugmentationName() {
         return "Vis Channel";
@@ -33,17 +34,21 @@ implements IAugmentationWand {
 
     @Override
     public AspectList getInfusionAspects() {
-        return new AspectList().add(Aspect.TOOL, 16).add(Aspect.MAGIC, 24).add(Aspect.WATER, 64).add(Aspect.ORDER, 48).add(Aspect.METAL, 16);
+        return new AspectList().add(Aspect.TOOL, 16)
+            .add(Aspect.MAGIC, 24)
+            .add(Aspect.WATER, 64)
+            .add(Aspect.ORDER, 48)
+            .add(Aspect.METAL, 16);
     }
 
     @Override
     public ItemStack[] getInfusionComponents() {
-        return new ItemStack[]{ItemApi.getItem((String)"itemResource", (int)2), ItemApi.getItem((String)"itemResource", (int)3), ItemApi.getItem((String)"itemResource", (int)3)};
+        return new ItemStack[] { ItemApi.getItem((String) "itemResource", (int) 2),
+            ItemApi.getItem((String) "itemResource", (int) 3), ItemApi.getItem((String) "itemResource", (int) 3) };
     }
 
     @Override
-    public void handleAugmentation(ItemStack stack, ItemWandCasting wand) {
-    }
+    public void handleAugmentation(ItemStack stack, ItemWandCasting wand) {}
 
     @Override
     public IAugmentationWand[] getPrerequisiteAugmentations() {
@@ -55,4 +60,3 @@ implements IAugmentationWand {
         return true;
     }
 }
-

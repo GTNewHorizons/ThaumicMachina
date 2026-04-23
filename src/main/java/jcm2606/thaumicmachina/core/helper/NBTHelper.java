@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class NBTHelper {
+
     public static NBTTagCompound getCompoundFor(ItemStack stack) {
         NBTTagCompound compound = null;
         if (stack != null) {
@@ -16,4 +17,3 @@ public class NBTHelper {
         return compound;
     }
 }
-

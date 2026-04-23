@@ -1,6 +1,11 @@
 
 package jcm2606.thaumicmachina;
 
+import net.minecraft.command.ICommand;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -11,17 +16,17 @@ import jcm2606.thaumicmachina.command.TMCommand;
 import jcm2606.thaumicmachina.core.TMCreativeTab;
 import jcm2606.thaumicmachina.core.config.Config;
 import jcm2606.thaumicmachina.core.proxy.ProxyCommon;
-import net.minecraft.command.ICommand;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-@Mod(modid="ThaumicMachina", name="Thaumic Machina", dependencies="required-after:Thaumcraft")
+@Mod(modid = "ThaumicMachina", name = "Thaumic Machina", dependencies = "required-after:Thaumcraft")
 public class ThaumicMachina {
+
     public static final String MOD_ID = "ThaumicMachina";
     public static final String MOD_NAME = "Thaumic Machina";
-    @Mod.Instance(value="ThaumicMachina")
+    @Mod.Instance(value = "ThaumicMachina")
     public static ThaumicMachina instance;
-    @SidedProxy(clientSide="jcm2606.thaumicmachina.client.proxy.ProxyClient", serverSide="jcm2606.thaumicmachina.core.proxy.ProxyCommon")
+    @SidedProxy(
+        clientSide = "jcm2606.thaumicmachina.client.proxy.ProxyClient",
+        serverSide = "jcm2606.thaumicmachina.core.proxy.ProxyCommon")
     public static ProxyCommon proxy;
     public static TMCreativeTab tab;
     public static final Logger log;
@@ -46,11 +51,10 @@ public class ThaumicMachina {
 
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand((ICommand)new TMCommand());
+        event.registerServerCommand((ICommand) new TMCommand());
     }
 
     static {
-        log = LogManager.getLogger((String)MOD_NAME);
+        log = LogManager.getLogger((String) MOD_NAME);
     }
 }
-

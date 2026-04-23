@@ -1,16 +1,16 @@
 
 package jcm2606.thaumicmachina.inv.container;
 
-import jcm2606.thaumicmachina.core.TMObjects;
-import jcm2606.thaumicmachina.inv.container.TMContainer;
-import jcm2606.thaumicmachina.inv.slot.SlotLocked;
-import jcm2606.thaumicmachina.tile.TileNodeTransmodifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 
-public class ContainerNodeTransmodifier
-extends TMContainer {
+import jcm2606.thaumicmachina.core.TMObjects;
+import jcm2606.thaumicmachina.inv.slot.SlotLocked;
+import jcm2606.thaumicmachina.tile.TileNodeTransmodifier;
+
+public class ContainerNodeTransmodifier extends TMContainer {
+
     public TileNodeTransmodifier tileTransmodifier;
 
     public ContainerNodeTransmodifier(TileNodeTransmodifier tileTransmodifier, InventoryPlayer playerInv) {
@@ -25,7 +25,8 @@ extends TMContainer {
         int x = 20;
         int y = 47;
         for (int i = 0; i < 4; ++i) {
-            this.addSlotToContainer(new SlotLocked(this.tileTransmodifier, i, x, y, new Item[]{TMObjects.nodeAugmentation}));
+            this.addSlotToContainer(
+                new SlotLocked(this.tileTransmodifier, i, x, y, new Item[] { TMObjects.nodeAugmentation }));
             x += 40;
         }
     }
@@ -34,4 +35,3 @@ extends TMContainer {
         return true;
     }
 }
-

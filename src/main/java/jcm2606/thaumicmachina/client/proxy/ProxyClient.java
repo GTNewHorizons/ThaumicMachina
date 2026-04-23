@@ -1,6 +1,9 @@
 
 package jcm2606.thaumicmachina.client.proxy;
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraftforge.common.MinecraftForge;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -14,19 +17,22 @@ import jcm2606.thaumicmachina.core.proxy.ProxyCommon;
 import jcm2606.thaumicmachina.tile.TileNodeTransmodifier;
 import jcm2606.thaumicmachina.tile.metaphysical.TileMetaphysical;
 import jcm2606.thaumicmachina.tile.metaphysical.TileMetaphysicalRose;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraftforge.common.MinecraftForge;
 
-public class ProxyClient
-extends ProxyCommon
-implements IProxyBase.IProxyClient {
+public class ProxyClient extends ProxyCommon implements IProxyBase.IProxyClient {
+
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        ClientRegistry.bindTileEntitySpecialRenderer(TileNodeTransmodifier.class, (TileEntitySpecialRenderer)new RenderNodeTransmodifier());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileMetaphysical.class, (TileEntitySpecialRenderer)new RenderMetaphysical());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileMetaphysicalRose.class, (TileEntitySpecialRenderer)new RenderMetaphysicalPlant());
-        MinecraftForge.EVENT_BUS.register((Object)new RenderEventHandler());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+            TileNodeTransmodifier.class,
+            (TileEntitySpecialRenderer) new RenderNodeTransmodifier());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+            TileMetaphysical.class,
+            (TileEntitySpecialRenderer) new RenderMetaphysical());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+            TileMetaphysicalRose.class,
+            (TileEntitySpecialRenderer) new RenderMetaphysicalPlant());
+        MinecraftForge.EVENT_BUS.register((Object) new RenderEventHandler());
     }
 
     @Override
@@ -40,7 +46,5 @@ implements IProxyBase.IProxyClient {
     }
 
     @Override
-    public void loadRendering() {
-    }
+    public void loadRendering() {}
 }
-

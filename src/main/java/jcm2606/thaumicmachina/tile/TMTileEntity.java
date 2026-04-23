@@ -15,14 +15,17 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TMTileEntity
-extends TileEntity {
+public class TMTileEntity extends TileEntity {
+
     protected long ticks = 0L;
     public boolean receivingIndirectRedstoneSignal = false;
 
     public void updateEntity() {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            if (this.getWorldObj().getIndirectPowerOutput(this.xCoord, this.yCoord, this.zCoord, direction.ordinal()) || this.getWorldObj().getIndirectPowerOutput(this.xCoord, this.yCoord - 1, this.zCoord, direction.ordinal())) {
+            if (this.getWorldObj()
+                .getIndirectPowerOutput(this.xCoord, this.yCoord, this.zCoord, direction.ordinal())
+                || this.getWorldObj()
+                    .getIndirectPowerOutput(this.xCoord, this.yCoord - 1, this.zCoord, direction.ordinal())) {
                 this.receivingIndirectRedstoneSignal = true;
                 break;
             }
@@ -37,8 +40,7 @@ extends TileEntity {
         ++this.ticks;
     }
 
-    public void load() {
-    }
+    public void load() {}
 
     public long getTicks() {
         return this.ticks;
@@ -59,13 +61,13 @@ extends TileEntity {
         NBTTagList list = new NBTTagList();
         for (int i = 0; i < slots.length; ++i) {
             NBTTagCompound slotCompound = new NBTTagCompound();
-            slotCompound.setByte("Slot", (byte)i);
+            slotCompound.setByte("Slot", (byte) i);
             if (slots[i] != null) {
                 slots[i].writeToNBT(slotCompound);
             }
-            list.appendTag((NBTBase)slotCompound);
+            list.appendTag((NBTBase) slotCompound);
         }
-        compound.setTag("Items", (NBTBase)list);
+        compound.setTag("Items", (NBTBase) list);
     }
 
     public ItemStack[] loadSlotsFromNBT(NBTTagCompound compound) {
@@ -75,7 +77,7 @@ extends TileEntity {
             NBTTagCompound slotCompound = list.getCompoundTagAt(i);
             byte b = slotCompound.getByte("Slot");
             if (b < 0 || b >= list.tagCount()) continue;
-            slots[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound)slotCompound);
+            slots[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound) slotCompound);
         }
         return slots;
     }
@@ -84,27 +86,22 @@ extends TileEntity {
         return this.worldObj.getBlock(x, y, z);
     }
 
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbourBlock) {
-    }
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbourBlock) {}
 
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7,
+        float par8, float par9) {
         return false;
     }
 
-    public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
-    }
+    public void onEntityWalking(World world, int x, int y, int z, Entity entity) {}
 
-    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
-    }
+    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {}
 
     public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
         return 0;
     }
 
-    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-    }
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {}
 
-    public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
-    }
+    public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {}
 }
-

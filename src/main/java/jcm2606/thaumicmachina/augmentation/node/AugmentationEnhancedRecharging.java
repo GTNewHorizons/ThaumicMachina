@@ -2,11 +2,12 @@
 package jcm2606.thaumicmachina.augmentation.node;
 
 import java.lang.reflect.Field;
+
 import jcm2606.thaumicmachina.core.implement.IAugmentationNode;
 import thaumcraft.common.tiles.TileNode;
 
-public class AugmentationEnhancedRecharging
-implements IAugmentationNode {
+public class AugmentationEnhancedRecharging implements IAugmentationNode {
+
     @Override
     public String getAugmentationName() {
         return "Enhanced Recharging";
@@ -23,10 +24,12 @@ implements IAugmentationNode {
         int i = 0;
         for (IAugmentationNode augmentation : augmentationList) {
             if (augmentation == null) continue;
-            if (augmentation.getAugmentationName().equals(this.getAugmentationName())) {
+            if (augmentation.getAugmentationName()
+                .equals(this.getAugmentationName())) {
                 ++i;
             }
-            if (!augmentation.getAugmentationName().equals("Dual Charging")) continue;
+            if (!augmentation.getAugmentationName()
+                .equals("Dual Charging")) continue;
             b = false;
         }
         if (i > 2) {
@@ -38,7 +41,8 @@ implements IAugmentationNode {
     public boolean decreaseRechargeTime(TileNode node) {
         boolean b = false;
         try {
-            Field field = node.getClass().getDeclaredField("regeneration");
+            Field field = node.getClass()
+                .getDeclaredField("regeneration");
             field.setAccessible(true);
             int f = 400;
             if (node.getNodeModifier() != null) {
@@ -58,20 +62,15 @@ implements IAugmentationNode {
             }
             field.set(node, f);
             b = true;
-        }
-        catch (SecurityException e) {
+        } catch (SecurityException e) {
             e.printStackTrace();
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
-        }
-        catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             e.printStackTrace();
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
         return b;
     }
 }
-
