@@ -20,7 +20,7 @@ import jcm2606.thaumicmachina.item.TMItem;
 
 public class ItemNodeAugmentation extends TMItem {
 
-    private static ArrayList<IAugmentationNode> augmentationList = new ArrayList();
+    private static final ArrayList<IAugmentationNode> augmentationList = new ArrayList<>();
 
     public ItemNodeAugmentation() {
         super("nodeAugmentation");
@@ -32,23 +32,23 @@ public class ItemNodeAugmentation extends TMItem {
     }
 
     public static IAugmentationNode getAugmentation(ItemStack stack) {
-        IAugmentationNode augmentation = null;
-        if (stack != null) {
-            for (IAugmentationNode augmentation2 : augmentationList) {
-                if (!augmentation2.getAugmentationName()
-                    .equals(
-                        NBTHelper.getCompoundFor(stack)
-                            .getString("nodeAugmentation")))
-                    continue;
-                augmentation = augmentation2;
-                break;
-            }
+        if (stack == null) {
+            return null;
         }
-        return augmentation;
+        for (IAugmentationNode augmentation : augmentationList) {
+            if (!augmentation.getAugmentationName()
+                .equals(
+                    NBTHelper.getCompoundFor(stack)
+                        .getString("nodeAugmentation")))
+                continue;
+            return augmentation;
+        }
+        return null;
     }
 
+    @Override
     @SideOnly(value = Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List list) {
+    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
         for (IAugmentationNode augmentation : augmentationList) {
             ItemStack stack = new ItemStack(item, 1, 0);
             NBTTagCompound compound = NBTHelper.getCompoundFor(stack);
@@ -57,8 +57,9 @@ public class ItemNodeAugmentation extends TMItem {
         }
     }
 
+    @Override
     @SideOnly(value = Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b) {
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced) {
         NBTTagCompound compound = NBTHelper.getCompoundFor(stack);
         if (compound != null) {
             list.add("Augmentation: " + compound.getString("nodeAugmentation"));

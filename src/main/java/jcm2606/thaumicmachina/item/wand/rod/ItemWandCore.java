@@ -11,7 +11,7 @@ import jcm2606.thaumicmachina.item.TMItem;
 
 public class ItemWandCore extends TMItem {
 
-    public String[] types = new String[] { "celestial" };
+    public final String[] types = new String[] { "celestial" };
     public IIcon[] icons;
 
     public ItemWandCore() {
@@ -30,6 +30,7 @@ public class ItemWandCore extends TMItem {
         }
     }
 
+    @Override
     public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName() + "." + this.types[stack.getItemDamage()];
     }

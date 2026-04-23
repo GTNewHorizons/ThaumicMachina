@@ -4,13 +4,15 @@ package jcm2606.thaumicmachina.wand.augmentation;
 import net.minecraft.item.ItemStack;
 
 import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.WandRod;
+import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class AugmentationTaintCapping implements IAugmentationWand {
+
+    public static final AugmentationTaintCapping INSTANCE = new AugmentationTaintCapping();
 
     @Override
     public String getAugmentationName() {
@@ -44,13 +46,13 @@ public class AugmentationTaintCapping implements IAugmentationWand {
 
     @Override
     public ItemStack[] getInfusionComponents() {
-        return new ItemStack[] { ItemApi.getItem((String) "itemResource", (int) 11),
-            ItemApi.getItem((String) "itemResource", (int) 15), ItemApi.getItem((String) "itemNugget", (int) 5) };
+        return new ItemStack[] { new ItemStack(ConfigItems.itemResource, 1, 11),
+            new ItemStack(ConfigItems.itemResource, 1, 15), new ItemStack(ConfigItems.itemNugget, 1, 5) };
     }
 
     @Override
     public IAugmentationWand[] getPrerequisiteAugmentations() {
-        return new IAugmentationWand[] { new AugmentationTaintedCore() };
+        return new IAugmentationWand[] { AugmentationTaintedCore.INSTANCE };
     }
 
     @Override

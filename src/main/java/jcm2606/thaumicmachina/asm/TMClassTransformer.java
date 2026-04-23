@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.IClassTransformer;
 
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -21,10 +20,12 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
+// TODO Replace this whole class with mixins
 public class TMClassTransformer implements IClassTransformer {
 
     String itemStackClassPath;
 
+    @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
         if (name.equals("thaumcraft.common.items.wands.ItemWandCasting")) {
             this.itemStackClassPath = ItemStack.class.getName()
@@ -43,28 +44,24 @@ public class TMClassTransformer implements IClassTransformer {
     public byte[] patchItemWandCastingClass(String className, byte[] bytes) {
         ClassNode node = new ClassNode();
         ClassReader reader = new ClassReader(bytes);
-        reader.accept((ClassVisitor) node, 0);
-        Iterator methodIterator = node.methods.iterator();
+        reader.accept(node, 0);
+        Iterator<MethodNode> methodIterator = node.methods.iterator();
         TMFMLLoadingPlugin.log("Inside 'ItemWandCasting' class, searching for methods...", "INFO");
         while (methodIterator.hasNext()) {
             InsnList injectionList;
             int i;
-            ListIterator iterator;
-            AbstractInsnNode targetNode;
+            ListIterator<AbstractInsnNode> iterator;
             AbstractInsnNode currNode;
-            MethodNode mnode = (MethodNode) methodIterator.next();
+            MethodNode mnode = methodIterator.next();
             int index = -1;
             if (mnode.name.equals("getMaxVis") && mnode.desc.equals("(L" + this.itemStackClassPath + ";)I")) {
                 TMFMLLoadingPlugin.log("Discovered 'getMaxVis' method, patching method...", "INFO");
-                currNode = null;
-                targetNode = null;
                 iterator = mnode.instructions.iterator();
                 i = -1;
                 while (iterator.hasNext()) {
                     ++i;
-                    currNode = (AbstractInsnNode) iterator.next();
+                    currNode = iterator.next();
                     if (currNode.getOpcode() != 153) continue;
-                    targetNode = currNode;
                     index = i - 6;
                 }
                 mnode.instructions.remove(mnode.instructions.get(index + 14));
@@ -84,7 +81,7 @@ public class TMClassTransformer implements IClassTransformer {
                 mnode.instructions.remove(mnode.instructions.get(index - 1));
                 injectionList = new InsnList();
                 injectionList.add(
-                    (AbstractInsnNode) new MethodInsnNode(
+                    new MethodInsnNode(
                         184,
                         "jcm2606/thaumicmachina/wand/WandAugmentationHandler",
                         "handleMaxVisMethod",
@@ -94,22 +91,19 @@ public class TMClassTransformer implements IClassTransformer {
             }
             if (mnode.name.equals("hasRunes") && mnode.desc.equals("(L" + this.itemStackClassPath + ";)Z")) {
                 TMFMLLoadingPlugin.log("Discovered 'hasRunes' method, patching method...", "INFO");
-                currNode = null;
-                targetNode = null;
                 iterator = mnode.instructions.iterator();
                 i = -1;
                 while (iterator.hasNext()) {
                     ++i;
-                    currNode = (AbstractInsnNode) iterator.next();
+                    currNode = iterator.next();
                     if (currNode.getOpcode() != 3) continue;
-                    targetNode = currNode;
                     index = i - 1;
                 }
                 mnode.instructions.remove(mnode.instructions.get(index + 1));
                 injectionList = new InsnList();
-                injectionList.add((AbstractInsnNode) new VarInsnNode(25, 1));
+                injectionList.add(new VarInsnNode(25, 1));
                 injectionList.add(
-                    (AbstractInsnNode) new MethodInsnNode(
+                    new MethodInsnNode(
                         184,
                         "jcm2606/thaumicmachina/wand/WandAugmentationHandler",
                         "handleHasRunesMethod",
@@ -126,15 +120,12 @@ public class TMClassTransformer implements IClassTransformer {
                     + ";Lthaumcraft/api/aspects/Aspect;Z)F"))
                 continue;
             TMFMLLoadingPlugin.log("Discovered 'getConsumptionModifier' method, patching method...", "INFO");
-            currNode = null;
-            targetNode = null;
             iterator = mnode.instructions.iterator();
             i = -1;
             while (iterator.hasNext()) {
                 ++i;
-                currNode = (AbstractInsnNode) iterator.next();
+                currNode = iterator.next();
                 if (currNode.getOpcode() != 153) continue;
-                targetNode = currNode;
                 index = i + 2;
                 break;
             }
@@ -143,10 +134,10 @@ public class TMClassTransformer implements IClassTransformer {
             mnode.instructions.remove(mnode.instructions.get(index + 2));
             mnode.instructions.remove(mnode.instructions.get(index + 1));
             injectionList = new InsnList();
-            injectionList.add((AbstractInsnNode) new VarInsnNode(25, 1));
-            injectionList.add((AbstractInsnNode) new InsnNode(4));
+            injectionList.add(new VarInsnNode(25, 1));
+            injectionList.add(new InsnNode(4));
             injectionList.add(
-                (AbstractInsnNode) new MethodInsnNode(
+                new MethodInsnNode(
                     184,
                     "jcm2606/thaumicmachina/wand/WandAugmentationHandler",
                     "handleConsumptionModifierMethod",
@@ -156,9 +147,8 @@ public class TMClassTransformer implements IClassTransformer {
             i = -1;
             while (iterator.hasNext()) {
                 ++i;
-                currNode = (AbstractInsnNode) iterator.next();
+                currNode = iterator.next();
                 if (!(currNode instanceof FrameNode)) continue;
-                targetNode = currNode;
                 index = i;
                 break;
             }
@@ -167,10 +157,10 @@ public class TMClassTransformer implements IClassTransformer {
             mnode.instructions.remove(mnode.instructions.get(index + 2));
             mnode.instructions.remove(mnode.instructions.get(index + 1));
             injectionList = new InsnList();
-            injectionList.add((AbstractInsnNode) new VarInsnNode(25, 1));
-            injectionList.add((AbstractInsnNode) new InsnNode(3));
+            injectionList.add(new VarInsnNode(25, 1));
+            injectionList.add(new InsnNode(3));
             injectionList.add(
-                (AbstractInsnNode) new MethodInsnNode(
+                new MethodInsnNode(
                     184,
                     "jcm2606/thaumicmachina/wand/WandAugmentationHandler",
                     "handleConsumptionModifierMethod",
@@ -180,14 +170,14 @@ public class TMClassTransformer implements IClassTransformer {
         }
         TMFMLLoadingPlugin.log("Patched class.", "INFO");
         ClassWriter writer = new ClassWriter(3);
-        node.accept((ClassVisitor) writer);
+        node.accept(writer);
         return writer.toByteArray();
     }
 
     public byte[] patchModelWandClass(String className, byte[] bytes) {
         ClassNode node = new ClassNode();
         ClassReader reader = new ClassReader(bytes);
-        reader.accept((ClassVisitor) node, 0);
+        reader.accept(node, 0);
         Iterator methodIterator = node.methods.iterator();
         TMFMLLoadingPlugin.log("Inside 'ModelWand' class, searching for methods...", "INFO");
         while (methodIterator.hasNext()) {
@@ -195,26 +185,21 @@ public class TMClassTransformer implements IClassTransformer {
             int index = -1;
             if (!mnode.name.equals("render") || !mnode.desc.equals("(L" + this.itemStackClassPath + ";)V")) continue;
             TMFMLLoadingPlugin.log("Discovered 'render' method, patching method...", "INFO");
-            AbstractInsnNode currNode = null;
-            AbstractInsnNode targetNode = null;
-            ListIterator iterator = mnode.instructions.iterator();
+            AbstractInsnNode currNode;
+            ListIterator<AbstractInsnNode> iterator = mnode.instructions.iterator();
             int i = -1;
             while (iterator.hasNext()) {
-                double d;
                 ++i;
-                currNode = (AbstractInsnNode) iterator.next();
-                if (!(currNode instanceof LdcInsnNode)) continue;
-                LdcInsnNode ldcNode = (LdcInsnNode) currNode;
-                if (!(ldcNode.cst instanceof Double) || (d = ((Double) ldcNode.cst).doubleValue()) != (double) -0.01f)
-                    continue;
-                targetNode = currNode;
+                currNode = iterator.next();
+                if (!(currNode instanceof LdcInsnNode ldcNode)) continue;
+                if (!(ldcNode.cst instanceof Double) || (Double) ldcNode.cst != (double) -0.01f) continue;
                 index = i - 8;
             }
             mnode.instructions.remove(mnode.instructions.get(index + 2));
             InsnList injectionList = new InsnList();
-            injectionList.add((AbstractInsnNode) new VarInsnNode(25, 1));
+            injectionList.add(new VarInsnNode(25, 1));
             injectionList.add(
-                (AbstractInsnNode) new MethodInsnNode(
+                new MethodInsnNode(
                     184,
                     "jcm2606/thaumicmachina/wand/WandAugmentationHandler",
                     "handleRuneRendererDouble",
@@ -222,9 +207,9 @@ public class TMClassTransformer implements IClassTransformer {
             mnode.instructions.insert(mnode.instructions.get(index + 1), injectionList);
             mnode.instructions.remove(mnode.instructions.get((index -= 14) + 1));
             injectionList = new InsnList();
-            injectionList.add((AbstractInsnNode) new VarInsnNode(25, 1));
+            injectionList.add(new VarInsnNode(25, 1));
             injectionList.add(
-                (AbstractInsnNode) new MethodInsnNode(
+                new MethodInsnNode(
                     184,
                     "jcm2606/thaumicmachina/wand/WandAugmentationHandler",
                     "handleRuneRendererPasses",
@@ -235,7 +220,7 @@ public class TMClassTransformer implements IClassTransformer {
         }
         TMFMLLoadingPlugin.log("Patched class.", "INFO");
         ClassWriter writer = new ClassWriter(3);
-        node.accept((ClassVisitor) writer);
+        node.accept(writer);
         return writer.toByteArray();
     }
 }

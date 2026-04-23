@@ -18,21 +18,16 @@ public class AugmentationDualCharging implements IAugmentationNode {
 
     @Override
     public boolean compatible(IAugmentationNode[] augmentationList) {
-        boolean b = true;
-        int i = 0;
         for (IAugmentationNode augmentation : augmentationList) {
             if (augmentation == null) continue;
             if (augmentation.getAugmentationName()
                 .equals(this.getAugmentationName())) {
-                ++i;
+                return false;
             }
             if (!augmentation.getAugmentationName()
                 .equals("Enhanced Recharging")) continue;
-            b = false;
+            return false;
         }
-        if (i > 1) {
-            b = false;
-        }
-        return b;
+        return true;
     }
 }

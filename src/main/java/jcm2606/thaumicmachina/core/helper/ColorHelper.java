@@ -4,31 +4,31 @@ package jcm2606.thaumicmachina.core.helper;
 import java.awt.Color;
 import java.text.NumberFormat;
 
-public class ColourHelper {
+import jcm2606.thaumicmachina.ThaumicMachina;
 
-    /*
-     * Enabled force condition propagation
-     * Lifted jumps to return sites
-     */
+public class ColorHelper {
+
     public static Color blendColors(float[] fractions, Color[] colors, float progress) {
-        Color color = null;
         if (fractions == null) throw new IllegalArgumentException("Fractions can't be null");
-        if (colors == null) throw new IllegalArgumentException("Colours can't be null");
+        if (colors == null) throw new IllegalArgumentException("Colors can't be null");
         if (fractions.length != colors.length)
-            throw new IllegalArgumentException("Fractions and colours must have equal number of elements");
-        int[] indicies = ColourHelper.getFractionIndicies(fractions, progress);
+            throw new IllegalArgumentException("Fractions and colors must have equal number of elements");
+        int[] indicies = ColorHelper.getFractionIndicies(fractions, progress);
         float[] range = new float[] { fractions[indicies[0]], fractions[indicies[1]] };
         Color[] colorRange = new Color[] { colors[indicies[0]], colors[indicies[1]] };
         float max = range[1] - range[0];
         float value = progress - range[0];
         float weight = value / max;
-        return ColourHelper.blend(colorRange[0], colorRange[1], 1.0f - weight);
+        return ColorHelper.blend(colorRange[0], colorRange[1], 1.0f - weight);
     }
 
     public static int[] getFractionIndicies(float[] fractions, float progress) {
         int startPoint;
         int[] range = new int[2];
-        for (startPoint = 0; startPoint < fractions.length && fractions[startPoint] <= progress; ++startPoint) {}
+        startPoint = 0;
+        while (startPoint < fractions.length && fractions[startPoint] <= progress) {
+            ++startPoint;
+        }
         if (startPoint >= fractions.length) {
             startPoint = fractions.length - 1;
         }
@@ -67,8 +67,8 @@ public class ColourHelper {
             color = new Color(red, green, blue);
         } catch (IllegalArgumentException exp) {
             NumberFormat nf = NumberFormat.getNumberInstance();
-            System.out.println(nf.format(red) + "; " + nf.format(green) + "; " + nf.format(blue));
-            exp.printStackTrace();
+            ThaumicMachina.log.error("{}; {}; {}", nf.format(red), nf.format(green), nf.format(blue));
+            ThaumicMachina.log.error(exp);
         }
         return color;
     }

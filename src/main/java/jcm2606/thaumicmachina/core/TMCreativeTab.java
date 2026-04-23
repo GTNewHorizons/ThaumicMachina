@@ -10,6 +10,7 @@ public class TMCreativeTab extends CreativeTabs {
         super("thaumicMachina");
     }
 
+    @Override
     public Item getTabIconItem() {
         return TMObjects.wandAugmentationCore;
     }

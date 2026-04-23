@@ -16,11 +16,11 @@ import jcm2606.thaumicmachina.item.node.ItemNodeAugmentation;
 import jcm2606.thaumicmachina.item.wand.ItemWandAugmentationCore;
 import jcm2606.thaumicmachina.item.wand.rod.ItemWandCore;
 import jcm2606.thaumicmachina.wand.WandHelper;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.WandRod;
+import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.config.ConfigResearch;
 
 public class TMObjects {
@@ -52,6 +52,7 @@ public class TMObjects {
         for (IAugmentationWand augmentation : WandHelper.augmentationMap.values()) {
             RecipeInfusionWandAugmentation recipe = (RecipeInfusionWandAugmentation) WandHelper
                 .buildInfusionRecipe(augmentation, false);
+            // noinspection unchecked
             ThaumcraftApi.getCraftingRecipes()
                 .add(recipe);
             recipe = (RecipeInfusionWandAugmentation) WandHelper.buildInfusionRecipe(augmentation, true);
@@ -63,11 +64,17 @@ public class TMObjects {
         ConfigResearch.recipes.put(
             "TM_WAND_AUGMENTATION_CORE",
             ThaumcraftApi.addArcaneCraftingRecipe(
-                (String) "@WAND_AUGMENTATION",
-                (ItemStack) new ItemStack(wandAugmentationCore, 1),
-                (AspectList) new AspectList().add(Aspect.ORDER, 25),
-                (Object[]) new Object[] { "CBC", "BAB", "CBC", Character.valueOf('A'),
-                    ItemApi.getItem((String) "itemResource", (int) 3), Character.valueOf('B'), Items.gold_ingot,
-                    Character.valueOf('C'), ItemApi.getItem((String) "itemResource", (int) 14) }));
+                "@WAND_AUGMENTATION",
+                new ItemStack(wandAugmentationCore, 1),
+                new AspectList().add(Aspect.ORDER, 25),
+                "CBC",
+                "BAB",
+                "CBC",
+                'A',
+                new ItemStack(ConfigItems.itemResource, 1, 3),
+                'B',
+                Items.gold_ingot,
+                'C',
+                new ItemStack(ConfigItems.itemResource, 1, 14)));
     }
 }

@@ -13,9 +13,8 @@ import jcm2606.thaumicmachina.ThaumicMachina;
 public class TMBlock extends Block {
 
     public IIcon customIcon;
-    public String name;
-    public String texture;
-    public boolean useIconIndex = true;
+    public final String name;
+    public final String texture;
     public int renderID = 0;
     public boolean renderAsNormalBlock = true;
     public boolean isOpaqueCube = true;
@@ -35,24 +34,29 @@ public class TMBlock extends Block {
         this.setCreativeTab(ThaumicMachina.tab);
     }
 
+    @Override
     @SideOnly(value = Side.CLIENT)
     public void registerBlockIcons(IIconRegister register) {
         this.customIcon = register.registerIcon("thaumicmachina:" + this.texture);
     }
 
+    @Override
     @SideOnly(value = Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         return this.customIcon;
     }
 
+    @Override
     public int getRenderType() {
         return this.renderID;
     }
 
+    @Override
     public boolean isOpaqueCube() {
         return this.isOpaqueCube;
     }
 
+    @Override
     public boolean renderAsNormalBlock() {
         return this.renderAsNormalBlock;
     }

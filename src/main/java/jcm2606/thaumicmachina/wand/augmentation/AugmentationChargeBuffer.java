@@ -4,13 +4,15 @@ package jcm2606.thaumicmachina.wand.augmentation;
 import net.minecraft.item.ItemStack;
 
 import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.WandRod;
+import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class AugmentationChargeBuffer implements IAugmentationWand {
+
+    public static final AugmentationChargeBuffer INSTANCE = new AugmentationChargeBuffer();
 
     @Override
     public String getAugmentationName() {
@@ -42,7 +44,7 @@ public class AugmentationChargeBuffer implements IAugmentationWand {
 
     @Override
     public ItemStack[] getInfusionComponents() {
-        return new ItemStack[] { ItemApi.getBlock((String) "blockMagicalLog", (int) 1) };
+        return new ItemStack[] { new ItemStack(ConfigBlocks.blockMagicalLog, 1, 1) };
     }
 
     @Override

@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import jcm2606.thaumicmachina.ThaumicMachina;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -16,6 +15,7 @@ import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategoryList;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
+import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.config.ConfigResearch;
 
 public class ResearchHelper {
@@ -28,9 +28,9 @@ public class ResearchHelper {
     public static void loadResearch() {
         ThaumicMachina.log.info("Loading research...");
         ResearchCategories.registerCategory(
-            (String) CATEGORY_KEY,
-            (ResourceLocation) new ResourceLocation("ThaumicMachina:textures/research/r_tab.png"),
-            (ResourceLocation) new ResourceLocation("thaumcraft:textures/gui/gui_researchback.png"));
+            CATEGORY_KEY,
+            new ResourceLocation("ThaumicMachina:textures/research/r_tab.png"),
+            new ResourceLocation("thaumcraft:textures/gui/gui_researchback.png"));
         ResearchItem item = new TMResearchItem(
             "INFORMATION_CONCEPTS",
             new AspectList(),
@@ -67,7 +67,7 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_nodal_studies.png"),
             true);
         ResearchHelper.setPageCount(item);
-        item.setParents(new String[] { "@TMNODES" });
+        item.setParents("@TMNODES");
         item.registerResearchItem();
         item = new TMResearchItem(
             "AURA_FIELD",
@@ -81,7 +81,7 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_aura_field.png"),
             true);
         ResearchHelper.setPageCount(item);
-        item.setParents(new String[] { "@NODAL_STUDIES", "@VIS_STUDIES" });
+        item.setParents("@NODAL_STUDIES", "@VIS_STUDIES");
         item.setConcealed();
         item.registerResearchItem();
     }
@@ -96,7 +96,7 @@ public class ResearchHelper {
             new ResourceLocation("thaumcraft:textures/misc/r_nodetap1.png"),
             true);
         ResearchHelper.setPageCount(item);
-        item.setParents(new String[] { "@TMNODES" });
+        item.setParents("@TMNODES");
         item.setAutoUnlock();
         item.registerResearchItem();
         item = new TMResearchItem(
@@ -110,7 +110,7 @@ public class ResearchHelper {
             true);
         ResearchHelper.setPageCount(item);
         item.setConcealed();
-        item.setParents(new String[] { "@VIS" });
+        item.setParents("@VIS");
         item.registerResearchItem();
         item = new TMResearchItem(
             "VIS_CHARGE",
@@ -123,7 +123,7 @@ public class ResearchHelper {
             true);
         ResearchHelper.setPageCount(item);
         item.setConcealed();
-        item.setParents(new String[] { "@VIS_STUDIES" });
+        item.setParents("@VIS_STUDIES");
         item.registerResearchItem();
     }
 
@@ -141,8 +141,8 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_studies.png"),
             true);
         ResearchHelper.setPageCount(item);
-        item.setParentsHidden(new String[] { "@VIS_CHARGE" });
-        item.setParents(new String[] { "@TMTHAUMATURGY" });
+        item.setParentsHidden("@VIS_CHARGE");
+        item.setParents("@TMTHAUMATURGY");
         item.registerResearchItem();
         item = new TMResearchItem(
             "WAND_AUGMENTATION",
@@ -156,12 +156,12 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_augmentation.png"),
             false);
         item.setPages(
-            new ResearchPage[] { new ResearchPage("tm.research.page.WAND_AUGMENTATION.1"),
-                new ResearchPage("tm.research.page.WAND_AUGMENTATION.2"),
-                new ResearchPage("tm.research.page.WAND_AUGMENTATION.3"),
-                new ResearchPage((IArcaneRecipe) ConfigResearch.recipes.get("TM_WAND_AUGMENTATION_CORE")) });
-        item.setParents(new String[] { "@WAND_STUDIES" });
-        item.setParentsHidden(new String[] { "INFUSION" });
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION.1"),
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION.2"),
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION.3"),
+            new ResearchPage((IArcaneRecipe) ConfigResearch.recipes.get("TM_WAND_AUGMENTATION_CORE")));
+        item.setParents("@WAND_STUDIES");
+        item.setParentsHidden("INFUSION");
         item.setSpecial();
         item.registerResearchItem();
         item = new TMResearchItem(
@@ -176,10 +176,10 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_augmentation_charge_buffer.png"),
             false);
         item.setPages(
-            new ResearchPage[] { new ResearchPage("tm.research.page.WAND_AUGMENTATION_CHARGE_BUFFER.1"),
-                new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_CHARGE_BUFFER")) });
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_CHARGE_BUFFER.1"),
+            new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_CHARGE_BUFFER")));
         item.setConcealed();
-        item.setParents(new String[] { "@WAND_AUGMENTATION" });
+        item.setParents("@WAND_AUGMENTATION");
         item.registerResearchItem();
         item = new TMResearchItem(
             "WAND_STABILITY",
@@ -190,7 +190,7 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_stability.png"),
             false);
         ResearchHelper.setPageCount(item);
-        item.setParents(new String[] { "@WAND_AUGMENTATION" });
+        item.setParents("@WAND_AUGMENTATION");
         item.setStub();
         item.setRound();
         item.registerResearchItem();
@@ -205,10 +205,10 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_augmentation_vis_channel.png"),
             false);
         item.setPages(
-            new ResearchPage[] { new ResearchPage("tm.research.page.WAND_AUGMENTATION_VIS_CHANNEL.1"),
-                new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_VIS_CHANNEL")) });
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_VIS_CHANNEL.1"),
+            new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_VIS_CHANNEL")));
         item.setConcealed();
-        item.setParents(new String[] { "@WAND_AUGMENTATION" });
+        item.setParents("@WAND_AUGMENTATION");
         item.registerResearchItem();
         item = new TMResearchItem(
             "WAND_AUGMENTATION_TAINTED_CORE",
@@ -223,12 +223,12 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_augmentation_tainted_core.png"),
             false);
         item.setPages(
-            new ResearchPage[] { new ResearchPage("tm.research.page.WAND_AUGMENTATION_TAINTED_CORE.1"),
-                new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_TAINTED_CORE")) });
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_TAINTED_CORE.1"),
+            new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_TAINTED_CORE")));
         item.setConcealed();
-        item.setParents(new String[] { "@WAND_AUGMENTATION" });
+        item.setParents("@WAND_AUGMENTATION");
         item.registerResearchItem();
-        ThaumcraftApi.addWarpToResearch((String) "@WAND_AUGMENTATION_TAINTED_CORE", (int) 2);
+        ThaumcraftApi.addWarpToResearch("@WAND_AUGMENTATION_TAINTED_CORE", 2);
         item = new TMResearchItem(
             "WAND_AUGMENTATION_TAINT_CAPPING",
             new AspectList().add(Aspect.TOOL, 1)
@@ -242,11 +242,11 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_augmentation_taint_capping.png"),
             false);
         item.setPages(
-            new ResearchPage[] { new ResearchPage("tm.research.page.WAND_AUGMENTATION_TAINT_CAPPING.1"),
-                new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_TAINT_CAPPING")),
-                new ResearchPage("tm.research.page.WAND_AUGMENTATION_TAINT_CAPPING.3") });
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_TAINT_CAPPING.1"),
+            new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_TAINT_CAPPING")),
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_TAINT_CAPPING.3"));
         item.setConcealed();
-        item.setParents(new String[] { "@WAND_AUGMENTATION_TAINTED_CORE" });
+        item.setParents("@WAND_AUGMENTATION_TAINTED_CORE");
         item.registerResearchItem();
         item = new TMResearchItem(
             "WAND_AUGMENTATION_CONTACT_DISCHARGE",
@@ -260,14 +260,14 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_wand_augmentation_contact_discharge.png"),
             false);
         item.setPages(
-            new ResearchPage[] { new ResearchPage("tm.research.page.WAND_AUGMENTATION_CONTACT_DISCHARGE.1"),
-                new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_CONTACT_DISCHARGE")),
-                new ResearchPage("tm.research.page.WAND_AUGMENTATION_CONTACT_DISCHARGE.3") });
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_CONTACT_DISCHARGE.1"),
+            new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_CONTACT_DISCHARGE")),
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_CONTACT_DISCHARGE.3"));
         item.setConcealed();
-        item.setParents(new String[] { "@WAND_AUGMENTATION" });
-        item.setParentsHidden(new String[] { "@CRIMSON_WAND_AUGMENTATION" });
+        item.setParents("@WAND_AUGMENTATION");
+        item.setParentsHidden("@CRIMSON_WAND_AUGMENTATION");
         item.registerResearchItem();
-        ThaumcraftApi.addWarpToResearch((String) "@WAND_AUGMENTATION_CONTACT_DISCHARGE", (int) 1);
+        ThaumcraftApi.addWarpToResearch("@WAND_AUGMENTATION_CONTACT_DISCHARGE", 1);
     }
 
     private static void loadEntityResearch(ResearchItem item) {}
@@ -279,7 +279,7 @@ public class ResearchHelper {
             4,
             5,
             0,
-            ItemApi.getItem((String) "itemEldritchObject", (int) 1),
+            new ItemStack(ConfigItems.itemEldritchObject, 1, 1),
             true);
         ResearchHelper.setPageCount(item);
         item.setSpecial();
@@ -297,7 +297,7 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_crimson_astronomy.png"),
             true);
         ResearchHelper.setPageCount(item);
-        item.setParents(new String[] { "@CRIMSON_PHILOSOPHY" });
+        item.setParents("@CRIMSON_PHILOSOPHY");
         item.setConcealed();
         item.registerResearchItem();
         item = new TMResearchItem(
@@ -311,8 +311,8 @@ public class ResearchHelper {
             new ResourceLocation("ThaumicMachina:textures/research/r_crimson_realisation.png"),
             true);
         ResearchHelper.setPageCount(item);
-        item.setParents(new String[] { "@CRIMSON_ASTRONOMY" });
-        item.setParentsHidden(new String[] { "@AURA_FIELD" });
+        item.setParents("@CRIMSON_ASTRONOMY");
+        item.setParentsHidden("@AURA_FIELD");
         item.setConcealed();
         item.registerResearchItem();
         item = new TMResearchItem(
@@ -325,7 +325,7 @@ public class ResearchHelper {
             3,
             new ResourceLocation("ThaumicMachina:textures/research/r_crimson_celestial_field.png"),
             true);
-        item.setParents(new String[] { "@CRIMSON_REALISATION" });
+        item.setParents("@CRIMSON_REALISATION");
         ResearchHelper.setPageCount(item);
         item.registerResearchItem();
         item = new TMResearchItem(
@@ -338,7 +338,7 @@ public class ResearchHelper {
             2,
             new ResourceLocation("ThaumicMachina:textures/research/r_crimson_thaumaturgy.png"),
             true);
-        item.setParents(new String[] { "@CRIMSON_PHILOSOPHY" });
+        item.setParents("@CRIMSON_PHILOSOPHY");
         item.setConcealed();
         ResearchHelper.setPageCount(item);
         item.registerResearchItem();
@@ -354,27 +354,24 @@ public class ResearchHelper {
             3,
             new ResourceLocation("ThaumicMachina:textures/research/r_crimson_wand_augmentation.png"),
             true);
-        item.setParents(new String[] { "@CRIMSON_THAUMATURGY" });
-        item.setParentsHidden(new String[] { "@WAND_AUGMENTATION" });
+        item.setParents("@CRIMSON_THAUMATURGY");
+        item.setParentsHidden("@WAND_AUGMENTATION");
         item.setConcealed();
         ResearchHelper.setPageCount(item);
         item.registerResearchItem();
     }
 
     private static void setPageCount(ResearchItem ritem) {
-        if (ritem instanceof TMResearchItem) {
-            TMResearchItem tmritem = (TMResearchItem) ritem;
+        if (ritem instanceof TMResearchItem tmritem) {
             tmritem.setPageCount();
         }
     }
 
     protected static ItemStack getResearchItem(String key, String cat) {
-        return ((ResearchItem) ((ResearchCategoryList) ResearchCategories.researchCategories.get((Object) cat)).research
-            .get((Object) key)).icon_item;
+        return ((ResearchCategoryList) ResearchCategories.researchCategories.get(cat)).research.get(key).icon_item;
     }
 
     protected static ResourceLocation getResearchIcon(String key, String cat) {
-        return ((ResearchItem) ((ResearchCategoryList) ResearchCategories.researchCategories.get((Object) cat)).research
-            .get((Object) key)).icon_resource;
+        return ((ResearchCategoryList) ResearchCategories.researchCategories.get(cat)).research.get(key).icon_resource;
     }
 }

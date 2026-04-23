@@ -1,8 +1,6 @@
 
 package jcm2606.thaumicmachina;
 
-import net.minecraft.command.ICommand;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +15,7 @@ import jcm2606.thaumicmachina.core.TMCreativeTab;
 import jcm2606.thaumicmachina.core.config.Config;
 import jcm2606.thaumicmachina.core.proxy.ProxyCommon;
 
-@Mod(modid = "ThaumicMachina", name = "Thaumic Machina", dependencies = "required-after:Thaumcraft")
+@Mod(modid = ThaumicMachina.MOD_ID, name = ThaumicMachina.MOD_NAME, dependencies = "required-after:Thaumcraft")
 public class ThaumicMachina {
 
     public static final String MOD_ID = "ThaumicMachina";
@@ -29,7 +27,7 @@ public class ThaumicMachina {
         serverSide = "jcm2606.thaumicmachina.core.proxy.ProxyCommon")
     public static ProxyCommon proxy;
     public static TMCreativeTab tab;
-    public static final Logger log;
+    public static final Logger log = LogManager.getLogger(MOD_ID);
     public static Config config;
 
     @Mod.EventHandler
@@ -51,10 +49,7 @@ public class ThaumicMachina {
 
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand((ICommand) new TMCommand());
+        event.registerServerCommand(new TMCommand());
     }
 
-    static {
-        log = LogManager.getLogger((String) MOD_NAME);
-    }
 }

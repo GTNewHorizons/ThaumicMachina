@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 
 import jcm2606.thaumicmachina.core.helper.ArrayHelper;
 import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
@@ -19,78 +18,65 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class TMCommand extends CommandBase {
 
+    @Override
     public String getCommandName() {
         return "thaumicmachina";
     }
 
-    public List getCommandAliases() {
-        ArrayList<String> aliasList = new ArrayList<String>();
+    @Override
+    public List<String> getCommandAliases() {
+        ArrayList<String> aliasList = new ArrayList<>();
         aliasList.add("thaumicmachina");
         aliasList.add("tm");
         return aliasList;
     }
 
+    @Override
     public String getCommandUsage(ICommandSender commandSender) {
         return "/thaumicmachina <action> [<player> <arguments>]";
     }
 
+    @Override
     public void processCommand(ICommandSender commandSender, String[] args) {
         if (args.length == 0) {
-            commandSender.addChatMessage(
-                (IChatComponent) new ChatComponentText(
-                    EnumChatFormatting.RED.getFormattingCode() + "Invalid usage of command."));
+            commandSender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Invalid usage of command."));
             return;
         }
         if (args[0].equalsIgnoreCase("help")) {
             commandSender.addChatMessage(
-                (IChatComponent) new ChatComponentText(
-                    "\u00a7" + EnumChatFormatting.GRAY + "You can also use /tm in place of /thaumimachina."));
+                new ChatComponentText(EnumChatFormatting.GRAY + "You can also use /tm in place of /thaumimachina."));
+            commandSender.addChatMessage(new ChatComponentText(EnumChatFormatting.GRAY + "Commands:"));
             commandSender.addChatMessage(
-                (IChatComponent) new ChatComponentText("\u00a7" + EnumChatFormatting.GRAY + "Commands:"));
-            commandSender.addChatMessage(
-                (IChatComponent) new ChatComponentText(
-                    "\u00a7" + EnumChatFormatting.DARK_GREEN
+                new ChatComponentText(
+                    EnumChatFormatting.DARK_GREEN
                         + "  /thaumicmachina wandaugmentation <add|remove|reset> <augmentation name>"));
         } else if (args[0].equalsIgnoreCase("wandaugmentation")) {
             this.handleWandAugmentationCommands(commandSender, args);
         }
     }
 
-    /*
-     * Enabled aggressive block sorting
-     */
     public void handleWandAugmentationCommands(ICommandSender commandSender, String[] args) {
         if (args.length != 3) {
-            commandSender.addChatMessage(
-                (IChatComponent) new ChatComponentText(
-                    "\u00a7" + EnumChatFormatting.RED.getFormattingCode() + "Invalid usage of command."));
+            commandSender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Invalid usage of command."));
             return;
         }
         if (args[1].equalsIgnoreCase("add")) {
-            EntityPlayerMP player = CommandBase.getCommandSenderAsPlayer((ICommandSender) commandSender);
-            if (player == null) return;
+            EntityPlayerMP player = CommandBase.getCommandSenderAsPlayer(commandSender);
             if (player.getCurrentEquippedItem() == null) {
                 commandSender.addChatMessage(
-                    (IChatComponent) new ChatComponentText(
-                        EnumChatFormatting.RED.getFormattingCode()
-                            + "Player must be holding their wand in their hand."));
+                    new ChatComponentText(EnumChatFormatting.RED + "Player must be holding their wand in their hand."));
                 return;
             }
             ItemStack stack = player.getCurrentEquippedItem();
             if (stack.getItem() == null) return;
             if (!(stack.getItem() instanceof ItemWandCasting)) {
                 commandSender.addChatMessage(
-                    (IChatComponent) new ChatComponentText(
-                        "\u00a7" + EnumChatFormatting.RED.getFormattingCode()
-                            + "Player must be holding their wand in their hand."));
+                    new ChatComponentText(EnumChatFormatting.RED + "Player must be holding their wand in their hand."));
                 return;
             }
-            ItemWandCasting wand = (ItemWandCasting) stack.getItem();
-            if (!WandHelper.augmentationMap.keySet()
-                .contains(args[2].replace("_", " "))) {
+            if (!WandHelper.augmentationMap.containsKey(args[2].replace("_", " "))) {
                 commandSender.addChatMessage(
-                    (IChatComponent) new ChatComponentText(
-                        "\u00a7" + EnumChatFormatting.RED.getFormattingCode() + "That augmentation is not registered"));
+                    new ChatComponentText(EnumChatFormatting.RED + "That augmentation is not registered"));
                 return;
             }
             if (!ArrayHelper.contains(WandHelper.getAugmentationNames(stack), args[2].replace("_", " "))) {
@@ -100,36 +86,27 @@ public class TMCommand extends CommandBase {
                 return;
             }
             commandSender.addChatMessage(
-                (IChatComponent) new ChatComponentText(
-                    "\u00a7" + EnumChatFormatting.RED.getFormattingCode()
-                        + "The held wand already has that augmentation installed."));
+                new ChatComponentText(
+                    EnumChatFormatting.RED + "The held wand already has that augmentation installed."));
             return;
         }
         if (args[1].equalsIgnoreCase("remove")) {
-            EntityPlayerMP player = CommandBase.getCommandSenderAsPlayer((ICommandSender) commandSender);
-            if (player == null) return;
+            EntityPlayerMP player = CommandBase.getCommandSenderAsPlayer(commandSender);
             if (player.getCurrentEquippedItem() == null) {
                 commandSender.addChatMessage(
-                    (IChatComponent) new ChatComponentText(
-                        EnumChatFormatting.RED.getFormattingCode()
-                            + "Player must be holding their wand in their hand."));
+                    new ChatComponentText(EnumChatFormatting.RED + "Player must be holding their wand in their hand."));
                 return;
             }
             ItemStack stack = player.getCurrentEquippedItem();
             if (stack.getItem() == null) return;
             if (!(stack.getItem() instanceof ItemWandCasting)) {
                 commandSender.addChatMessage(
-                    (IChatComponent) new ChatComponentText(
-                        "\u00a7" + EnumChatFormatting.RED.getFormattingCode()
-                            + "Player must be holding their wand in their hand."));
+                    new ChatComponentText(EnumChatFormatting.RED + "Player must be holding their wand in their hand."));
                 return;
             }
-            ItemWandCasting wand = (ItemWandCasting) stack.getItem();
-            if (!WandHelper.augmentationMap.keySet()
-                .contains(args[2].replace("_", " "))) {
+            if (!WandHelper.augmentationMap.containsKey(args[2].replace("_", " "))) {
                 commandSender.addChatMessage(
-                    (IChatComponent) new ChatComponentText(
-                        "\u00a7" + EnumChatFormatting.RED.getFormattingCode() + "That augmentation is not registered"));
+                    new ChatComponentText(EnumChatFormatting.RED + "That augmentation is not registered"));
                 return;
             }
             if (ArrayHelper.contains(WandHelper.getAugmentationNames(stack), args[2].replace("_", " "))) {
@@ -139,16 +116,13 @@ public class TMCommand extends CommandBase {
                 return;
             }
             commandSender.addChatMessage(
-                (IChatComponent) new ChatComponentText(
-                    "\u00a7" + EnumChatFormatting.RED.getFormattingCode()
-                        + "The held wand does not have those augmentations installed."));
+                new ChatComponentText(
+                    EnumChatFormatting.RED + "The held wand does not have those augmentations installed."));
             return;
         }
         if (args[1].equalsIgnoreCase("reset")) {
             return;
         }
-        commandSender.addChatMessage(
-            (IChatComponent) new ChatComponentText(
-                "\u00a7" + EnumChatFormatting.RED.getFormattingCode() + "Invalid usage of command."));
+        commandSender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Invalid usage of command."));
     }
 }

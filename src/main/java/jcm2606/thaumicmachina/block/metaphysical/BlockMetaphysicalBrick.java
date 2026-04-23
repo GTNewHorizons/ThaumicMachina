@@ -12,9 +12,10 @@ public class BlockMetaphysicalBrick extends BlockMetaphysical {
 
     public BlockMetaphysicalBrick() {
         super("metaphysicalBrick", Material.rock);
-        GameRegistry.registerTileEntity(TileMetaphysical.class, (String) "tileTMMetaphysicalBlock");
+        GameRegistry.registerTileEntity(TileMetaphysical.class, "tileTMMetaphysicalBlock");
     }
 
+    @Override
     public TileEntity createNewTileEntity(World world, int i) {
         return new TileMetaphysical();
     }

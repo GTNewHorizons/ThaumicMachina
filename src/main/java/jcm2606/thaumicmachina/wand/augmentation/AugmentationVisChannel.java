@@ -4,13 +4,15 @@ package jcm2606.thaumicmachina.wand.augmentation;
 import net.minecraft.item.ItemStack;
 
 import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.WandRod;
+import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class AugmentationVisChannel implements IAugmentationWand {
+
+    public static final AugmentationVisChannel INSTANCE = new AugmentationVisChannel();
 
     @Override
     public String getAugmentationName() {
@@ -43,8 +45,8 @@ public class AugmentationVisChannel implements IAugmentationWand {
 
     @Override
     public ItemStack[] getInfusionComponents() {
-        return new ItemStack[] { ItemApi.getItem((String) "itemResource", (int) 2),
-            ItemApi.getItem((String) "itemResource", (int) 3), ItemApi.getItem((String) "itemResource", (int) 3) };
+        return new ItemStack[] { new ItemStack(ConfigItems.itemResource, 1, 2),
+            new ItemStack(ConfigItems.itemResource, 1, 3), new ItemStack(ConfigItems.itemResource, 1, 3) };
     }
 
     @Override

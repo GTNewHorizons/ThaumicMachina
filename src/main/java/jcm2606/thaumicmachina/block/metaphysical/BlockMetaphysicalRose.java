@@ -12,10 +12,11 @@ public class BlockMetaphysicalRose extends BlockMetaphysical {
 
     public BlockMetaphysicalRose() {
         super("metaphysicalRose", Material.plants);
-        GameRegistry.registerTileEntity(TileMetaphysicalRose.class, (String) "tileTMMetaphysicalRose");
+        GameRegistry.registerTileEntity(TileMetaphysicalRose.class, "tileTMMetaphysicalRose");
     }
 
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    @Override
+    public TileEntity createNewTileEntity(World world, int i) {
         return new TileMetaphysicalRose();
     }
 }

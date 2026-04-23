@@ -8,20 +8,21 @@ import net.minecraft.item.ItemStack;
 
 public class SlotLocked extends Slot {
 
-    Item[] validItems;
+    final Item[] validItems;
 
     public SlotLocked(IInventory inv, int index, int x, int y, Item[] validItems) {
         super(inv, index, x, y);
         this.validItems = validItems;
     }
 
+    @Override
     public boolean isItemValid(ItemStack stack) {
-        boolean b = false;
+        if (stack == null) return false;
         for (Item item : this.validItems) {
-            if (stack == null || stack.getItem() != item) continue;
-            b = true;
-            break;
+            if (stack.getItem() == item) {
+                return true;
+            }
         }
-        return b;
+        return false;
     }
 }

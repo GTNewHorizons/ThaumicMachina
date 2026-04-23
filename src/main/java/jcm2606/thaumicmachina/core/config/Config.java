@@ -8,7 +8,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class Config {
 
-    public Configuration config;
+    public final Configuration config;
     protected static final String CATEGORY_RESEARCH = "RESEARCH";
 
     public Config(FMLPreInitializationEvent event) {

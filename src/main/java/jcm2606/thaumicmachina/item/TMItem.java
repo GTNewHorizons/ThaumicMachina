@@ -11,14 +11,14 @@ import jcm2606.thaumicmachina.ThaumicMachina;
 
 public class TMItem extends Item {
 
-    public String name;
-    public String texture;
+    public final String name;
+    public final String texture;
 
     public TMItem(String name) {
         this.name = this.texture = name;
         this.setUnlocalizedName(this.name);
         this.setCreativeTab(ThaumicMachina.tab);
-        GameRegistry.registerItem((Item) this, (String) name, (String) "ThaumicMachina");
+        GameRegistry.registerItem(this, name, "ThaumicMachina");
     }
 
     public TMItem(String name, String texture) {
@@ -26,9 +26,10 @@ public class TMItem extends Item {
         this.texture = texture;
         this.setUnlocalizedName(this.name);
         this.setCreativeTab(ThaumicMachina.tab);
-        GameRegistry.registerItem((Item) this, (String) name, (String) "ThaumicMachina");
+        GameRegistry.registerItem(this, name, "ThaumicMachina");
     }
 
+    @Override
     @SideOnly(value = Side.CLIENT)
     public void registerIcons(IIconRegister register) {
         this.itemIcon = register.registerIcon("ThaumicMachina:" + this.texture);

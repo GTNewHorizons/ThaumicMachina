@@ -12,6 +12,8 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class AugmentationContactDischarge implements IAugmentationWand {
 
+    public static final AugmentationContactDischarge INSTANCE = new AugmentationContactDischarge();
+
     @Override
     public String getAugmentationName() {
         return "Contact Discharge";

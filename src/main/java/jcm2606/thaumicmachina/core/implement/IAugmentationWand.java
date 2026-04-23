@@ -9,21 +9,21 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 
 public interface IAugmentationWand {
 
-    public String getAugmentationName();
+    String getAugmentationName();
 
-    public String getAugmentationResearch();
+    String getAugmentationResearch();
 
-    public String getRecipeName();
+    String getRecipeName();
 
-    public int getInfusionInstability();
+    int getInfusionInstability();
 
-    public AspectList getInfusionAspects();
+    AspectList getInfusionAspects();
 
-    public ItemStack[] getInfusionComponents();
+    ItemStack[] getInfusionComponents();
 
-    public IAugmentationWand[] getPrerequisiteAugmentations();
+    IAugmentationWand[] getPrerequisiteAugmentations();
 
-    public boolean isCompatibleWith(WandRod var1);
+    boolean isCompatibleWith(WandRod var1);
 
-    public void handleAugmentation(ItemStack var1, ItemWandCasting var2);
+    void handleAugmentation(ItemStack var1, ItemWandCasting var2);
 }

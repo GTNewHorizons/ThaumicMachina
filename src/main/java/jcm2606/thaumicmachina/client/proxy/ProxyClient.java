@@ -1,7 +1,6 @@
 
 package jcm2606.thaumicmachina.client.proxy;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -23,16 +22,10 @@ public class ProxyClient extends ProxyCommon implements IProxyBase.IProxyClient 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        ClientRegistry.bindTileEntitySpecialRenderer(
-            TileNodeTransmodifier.class,
-            (TileEntitySpecialRenderer) new RenderNodeTransmodifier());
-        ClientRegistry.bindTileEntitySpecialRenderer(
-            TileMetaphysical.class,
-            (TileEntitySpecialRenderer) new RenderMetaphysical());
-        ClientRegistry.bindTileEntitySpecialRenderer(
-            TileMetaphysicalRose.class,
-            (TileEntitySpecialRenderer) new RenderMetaphysicalPlant());
-        MinecraftForge.EVENT_BUS.register((Object) new RenderEventHandler());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileNodeTransmodifier.class, new RenderNodeTransmodifier());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileMetaphysical.class, new RenderMetaphysical());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileMetaphysicalRose.class, new RenderMetaphysicalPlant());
+        MinecraftForge.EVENT_BUS.register(new RenderEventHandler());
     }
 
     @Override

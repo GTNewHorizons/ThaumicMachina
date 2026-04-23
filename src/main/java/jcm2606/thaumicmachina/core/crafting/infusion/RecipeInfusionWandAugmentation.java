@@ -2,10 +2,10 @@
 package jcm2606.thaumicmachina.core.crafting.infusion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -16,15 +16,15 @@ import jcm2606.thaumicmachina.core.TMObjects;
 import jcm2606.thaumicmachina.core.helper.NBTHelper;
 import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import jcm2606.thaumicmachina.wand.WandHelper;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.crafting.InfusionRecipe;
+import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class RecipeInfusionWandAugmentation extends InfusionRecipe {
 
-    public IAugmentationWand augmentation;
-    public boolean isResearchRecipe;
+    public final IAugmentationWand augmentation;
+    public final boolean isResearchRecipe;
 
     public RecipeInfusionWandAugmentation(IAugmentationWand augmentation, boolean isResearchRecipe) {
         super(
@@ -39,78 +39,71 @@ public class RecipeInfusionWandAugmentation extends InfusionRecipe {
     }
 
     private static ItemStack buildStackIfResearch(IAugmentationWand augmentation, boolean research) {
-        ItemStack stack = ItemApi.getItem((String) "itemWandCasting", (int) Short.MAX_VALUE);
-        if (research && augmentation.getPrerequisiteAugmentations() != null) {
-            stack = WandHelper.addAugmentationsTo(stack, augmentation.getPrerequisiteAugmentations(), true);
+        ItemStack stack = new ItemStack(ConfigItems.itemWandCasting, 1, Short.MAX_VALUE);
+        IAugmentationWand[] prereqs = augmentation.getPrerequisiteAugmentations();
+        if (research && prereqs != null) {
+            stack = WandHelper.addAugmentationsTo(stack, prereqs, true);
         }
         return stack;
     }
 
+    @Override
     public boolean matches(ArrayList<ItemStack> input, ItemStack central, World world, EntityPlayer player) {
         if (this.getRecipeInput() == null) {
             return false;
         }
-        if (this.research.length() > 0 && !ThaumcraftApiHelper
-            .isResearchComplete((String) player.getCommandSenderName(), (String) this.research)) {
+        if (!this.research.isEmpty()
+            && !ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), this.research)) {
             return false;
         }
         if (WandHelper.hasAugmentation(central, this.augmentation)) {
             return false;
         }
-        boolean b = false;
         if (this.augmentation.getPrerequisiteAugmentations() != null) {
             for (IAugmentationWand augmentation_ : this.augmentation.getPrerequisiteAugmentations()) {
                 if (WandHelper.hasAugmentation(central, augmentation_)) continue;
-                b = true;
+                return false;
             }
-        }
-        if (b) {
-            return false;
         }
         if (!(this.getRecipeInput()
             .getItem() instanceof ItemWandCasting)) {
             return false;
         }
-        ArrayList<ItemStack> ii = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> items = new ArrayList<>();
         for (ItemStack is : input) {
-            ii.add(is.copy());
+            items.add(is.copy());
         }
-        for (ItemStack comp : this.getComponents()) {
-            b = false;
-            for (int a = 0; a < ii.size(); ++a) {
-                ItemStack i2 = ((ItemStack) ii.get(a)).copy();
+        outer: for (ItemStack comp : this.getComponents()) {
+            for (int a = 0; a < items.size(); a++) {
+                ItemStack item = items.get(a)
+                    .copy();
                 if (comp.getItemDamage() == Short.MAX_VALUE) {
-                    i2.setItemDamage(Short.MAX_VALUE);
+                    item.setItemDamage(Short.MAX_VALUE);
                 }
-                if (!this.areItemStacksEqualCustom(i2, comp, false)) continue;
-                ii.remove(a);
-                b = true;
-                break;
+                if (areItemStacksEqualCustom(item, comp, false)) {
+                    items.remove(a);
+                    continue outer;
+                }
             }
-            if (b) continue;
             return false;
         }
-        if (ii.size() == 0) {
-            // empty if block
-        }
-        return ii.size() == 0;
+        return items.isEmpty();
     }
 
     private static ItemStack[] getComponents(ItemStack[] augmentationComponents) {
-        ArrayList<ItemStack> componentsList = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> componentsList = new ArrayList<>();
         componentsList.add(new ItemStack(TMObjects.wandAugmentationCore));
-        componentsList.add(ItemApi.getItem((String) "itemResource", (int) 14));
-        componentsList.add(ItemApi.getItem((String) "itemResource", (int) 15));
-        for (ItemStack stack : augmentationComponents) {
-            componentsList.add(stack);
-        }
+        componentsList.add(new ItemStack(ConfigItems.itemResource, 1, 14));
+        componentsList.add(new ItemStack(ConfigItems.itemResource, 1, 15));
+        componentsList.addAll(Arrays.asList(augmentationComponents));
         ItemStack[] components = new ItemStack[componentsList.size()];
         for (int i = 0; i < componentsList.size(); ++i) {
-            components[i] = (ItemStack) componentsList.get(i);
+            components[i] = componentsList.get(i);
         }
         return components;
     }
 
+    @Override
     public ItemStack getRecipeOutput(ItemStack inputStack) {
         ItemStack stack = inputStack.copy();
         NBTTagCompound compound = NBTHelper.getCompoundFor(stack);
@@ -119,35 +112,33 @@ public class RecipeInfusionWandAugmentation extends InfusionRecipe {
             list = compound.getTagList("Augmentations", 8);
         }
         NBTTagString tag = new NBTTagString(this.augmentation.getAugmentationName());
-        list.appendTag((NBTBase) tag);
-        compound.setTag("Augmentations", (NBTBase) list);
+        list.appendTag(tag);
+        compound.setTag("Augmentations", list);
         return stack;
     }
 
-    private boolean areItemStacksEqualCustom(ItemStack stack0, ItemStack stack1, boolean fuzzy) {
-        ItemStack[] ores;
-        int od;
-        if (stack0 == null && stack1 != null) {
+    private static boolean areItemStacksEqualCustom(ItemStack stack0, ItemStack stack1, boolean fuzzy) {
+        if (stack0 == null && stack1 != null || stack0 != null && stack1 == null) {
             return false;
         }
-        if (stack0 != null && stack1 == null) {
-            return false;
-        }
-        if (stack0 == null && stack1 == null) {
+        if (stack0 == null) {
             return true;
         }
-        boolean t1 = ThaumcraftApiHelper.areItemStackTagsEqualForCrafting((ItemStack) stack0, (ItemStack) stack1);
-        if (!t1) {
+        if (!ThaumcraftApiHelper.areItemStackTagsEqualForCrafting(stack0, stack1)) {
             return false;
         }
-        if (fuzzy && (od = OreDictionary.getOreID((ItemStack) stack0)) != -1
-            && ThaumcraftApiHelper.containsMatch(
-                (boolean) false,
-                (ItemStack[]) new ItemStack[] { stack1 },
-                (ItemStack[]) (ores = OreDictionary.getOres((Integer) od)
-                    .toArray(new ItemStack[0])))) {
-            return true;
+        for (int oreID : OreDictionary.getOreIDs(stack0)) {
+            String s = OreDictionary.getOreName(oreID);
+            OreDictionary.getOres(s);
+            if (ThaumcraftApiHelper.containsMatch(
+                false,
+                new ItemStack[] { stack1 },
+                OreDictionary.getOres(s)
+                    .toArray(new ItemStack[0]))) {
+                return true;
+            }
         }
+
         return stack0.getItem() == stack1.getItem();
     }
 }

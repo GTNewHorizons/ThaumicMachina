@@ -11,40 +11,33 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 public class WandAugmentationHandler {
 
     public static int handleMaxVisMethod(ItemStack stack) {
-        int maxVis = 0;
-        if (stack != null && stack.getItem() != null && stack.getItem() instanceof ItemWandCasting) {
-            ItemWandCasting wand = (ItemWandCasting) stack.getItem();
-            maxVis = wand.getRod(stack)
-                .getCapacity() * (wand.isSceptre(stack) ? 150 : 100);
-            if (WandHelper.hasAugmentation(stack, new AugmentationChargeBuffer())) {
-                int currVis = maxVis;
-                maxVis = (int) ((double) maxVis + (double) maxVis * 0.25);
-            }
+        if (stack == null || stack.getItem() == null || !(stack.getItem() instanceof ItemWandCasting wand)) {
+            return 0;
+        }
+        int maxVis = wand.getRod(stack)
+            .getCapacity() * (wand.isSceptre(stack) ? 150 : 100);
+        if (WandHelper.hasAugmentation(stack, AugmentationChargeBuffer.INSTANCE)) {
+            return (int) ((double) maxVis + (double) maxVis * 0.25);
         }
         return maxVis;
     }
 
     public static float handleConsumptionModifierMethod(ItemStack stack, boolean specialCost) {
-        float f = 1.0f;
-        if (stack != null && stack.getItem() != null && stack.getItem() instanceof ItemWandCasting) {
-            ItemWandCasting wand = (ItemWandCasting) stack.getItem();
-            f = !specialCost ? wand.getCap(stack)
-                .getBaseCostModifier()
-                : wand.getCap(stack)
-                    .getSpecialCostModifier();
-            if (WandHelper.hasAugmentation(stack, new AugmentationVisChannel())) {
-                f = (float) ((double) f - (double) f * 0.1);
-            }
+        if (stack == null || stack.getItem() == null || !(stack.getItem() instanceof ItemWandCasting wand)) {
+            return 1.0f;
         }
-        return f;
+        float f = !specialCost ? wand.getCap(stack)
+            .getBaseCostModifier()
+            : wand.getCap(stack)
+                .getSpecialCostModifier();
+        if (WandHelper.hasAugmentation(stack, AugmentationVisChannel.INSTANCE)) {
+            return (float) ((double) f - (double) f * 0.1);
+        }
+        return 1.0f;
     }
 
     public static boolean handleHasRunesMethod(ItemStack stack) {
-        boolean b = false;
-        if (stack != null && WandHelper.hasAugmentations(stack)) {
-            b = true;
-        }
-        return b;
+        return stack != null && WandHelper.hasAugmentations(stack);
     }
 
     public static double handleRuneRendererDouble(ItemStack stack) {
@@ -53,7 +46,7 @@ public class WandAugmentationHandler {
         if (stack != null && stack.getItem() != null
             && stack.getItem() instanceof ItemWandCasting
             && !((wand = (ItemWandCasting) stack.getItem()).getRod(stack) instanceof StaffRod)) {
-            d = !wand.isSceptre(stack) ? (d -= 0.225) : (d += 0.05);
+            d = !wand.isSceptre(stack) ? d - 0.225 : d + 0.05;
         }
         return d;
     }

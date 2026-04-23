@@ -3,35 +3,23 @@ package jcm2606.thaumicmachina.core.helper;
 
 import net.minecraft.item.ItemStack;
 
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
+import thaumcraft.common.config.ConfigItems;
 
 public class ThaumcraftHelper {
 
     public static ItemStack getShardStack(Aspect shardType, int stackSize) {
-        ItemStack stack = null;
-        if (shardType.isPrimal()) {
-            switch (shardType.getName()) {
-                case "aer": {
-                    stack = ItemApi.getItem((String) "itemShard", (int) 0);
-                }
-                case "ignis": {
-                    stack = ItemApi.getItem((String) "itemShard", (int) 1);
-                }
-                case "aqua": {
-                    stack = ItemApi.getItem((String) "itemShard", (int) 2);
-                }
-                case "terra": {
-                    stack = ItemApi.getItem((String) "itemShard", (int) 3);
-                }
-                case "ordo": {
-                    stack = ItemApi.getItem((String) "itemShard", (int) 4);
-                }
-                case "perditio": {
-                    stack = ItemApi.getItem((String) "itemShard", (int) 5);
-                }
-            }
+        if (!shardType.isPrimal()) {
+            return null;
         }
-        return stack;
+        return switch (shardType.getName()) {
+            case "aer" -> new ItemStack(ConfigItems.itemShard, stackSize, 0);
+            case "ignis" -> new ItemStack(ConfigItems.itemShard, stackSize, 1);
+            case "aqua" -> new ItemStack(ConfigItems.itemShard, stackSize, 2);
+            case "terra" -> new ItemStack(ConfigItems.itemShard, stackSize, 3);
+            case "ordo" -> new ItemStack(ConfigItems.itemShard, stackSize, 4);
+            case "perditio" -> new ItemStack(ConfigItems.itemShard, stackSize, 5);
+            default -> null;
+        };
     }
 }

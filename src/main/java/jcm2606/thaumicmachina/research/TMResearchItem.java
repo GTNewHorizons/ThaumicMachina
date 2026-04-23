@@ -15,7 +15,7 @@ import thaumcraft.api.research.ResearchPage;
 
 public class TMResearchItem extends ResearchItem {
 
-    public boolean concept;
+    public final boolean concept;
     public String name;
 
     public TMResearchItem(String key) {
@@ -57,14 +57,11 @@ public class TMResearchItem extends ResearchItem {
 
     public void setPageCount() {
         ResearchPage[] pageList = new ResearchPage[1];
-        for (int i = 1; i <= 255
-            && !StatCollector.translateToLocal((String) ("tm.research.page." + this.name + "." + i))
-                .equals("tm.research.page." + this.name + "." + i); ++i) {
+        for (int i = 1; i <= 255 && !StatCollector.translateToLocal("tm.research.page." + this.name + "." + i)
+            .equals("tm.research.page." + this.name + "." + i); ++i) {
             if (i > pageList.length) {
                 ResearchPage[] newList = new ResearchPage[i];
-                for (int j = 0; j < pageList.length; ++j) {
-                    newList[j] = pageList[j];
-                }
+                System.arraycopy(pageList, 0, newList, 0, pageList.length);
                 pageList = newList;
             }
             pageList[i - 1] = new ResearchPage("tm.research.page." + this.name + "." + i);
@@ -72,18 +69,20 @@ public class TMResearchItem extends ResearchItem {
         this.setPages(pageList);
     }
 
+    @Override
     @SideOnly(value = Side.CLIENT)
     public String getName() {
-        return StatCollector.translateToLocal((String) ("tm.research.name." + this.name));
+        return StatCollector.translateToLocal("tm.research.name." + this.name);
     }
 
+    @Override
     @SideOnly(value = Side.CLIENT)
     public String getText() {
-        String s = "[TM] " + StatCollector.translateToLocal((String) ("tm.research.desc." + this.name));
+        String s = "[TM] " + StatCollector.translateToLocal("tm.research.desc." + this.name);
         if (this.concept) {
-            s = "[TM] [" + StatCollector.translateToLocal((String) "tm.research.prefix.concept")
+            s = "[TM] [" + StatCollector.translateToLocal("tm.research.prefix.concept")
                 + "] "
-                + StatCollector.translateToLocal((String) ("tm.research.desc." + this.name));
+                + StatCollector.translateToLocal("tm.research.desc." + this.name);
         }
         return s;
     }

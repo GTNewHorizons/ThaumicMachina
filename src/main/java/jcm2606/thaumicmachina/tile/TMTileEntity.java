@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -20,6 +19,7 @@ public class TMTileEntity extends TileEntity {
     protected long ticks = 0L;
     public boolean receivingIndirectRedstoneSignal = false;
 
+    @Override
     public void updateEntity() {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             if (this.getWorldObj()
@@ -34,7 +34,7 @@ public class TMTileEntity extends TileEntity {
         if (this.ticks == 0L) {
             this.load();
         }
-        if (this.ticks >= Long.MAX_VALUE) {
+        if (this.ticks == Long.MAX_VALUE) {
             this.ticks = 1L;
         }
         ++this.ticks;
@@ -46,11 +46,13 @@ public class TMTileEntity extends TileEntity {
         return this.ticks;
     }
 
+    @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         super.onDataPacket(net, pkt);
         this.readFromNBT(pkt.func_148857_g());
     }
 
+    @Override
     public S35PacketUpdateTileEntity getDescriptionPacket() {
         NBTTagCompound compound = new NBTTagCompound();
         this.writeToNBT(compound);
@@ -65,9 +67,9 @@ public class TMTileEntity extends TileEntity {
             if (slots[i] != null) {
                 slots[i].writeToNBT(slotCompound);
             }
-            list.appendTag((NBTBase) slotCompound);
+            list.appendTag(slotCompound);
         }
-        compound.setTag("Items", (NBTBase) list);
+        compound.setTag("Items", list);
     }
 
     public ItemStack[] loadSlotsFromNBT(NBTTagCompound compound) {
@@ -77,7 +79,7 @@ public class TMTileEntity extends TileEntity {
             NBTTagCompound slotCompound = list.getCompoundTagAt(i);
             byte b = slotCompound.getByte("Slot");
             if (b < 0 || b >= list.tagCount()) continue;
-            slots[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound) slotCompound);
+            slots[i] = ItemStack.loadItemStackFromNBT(slotCompound);
         }
         return slots;
     }

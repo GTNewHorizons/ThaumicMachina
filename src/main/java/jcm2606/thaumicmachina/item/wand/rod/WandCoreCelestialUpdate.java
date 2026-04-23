@@ -11,11 +11,12 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class WandCoreCelestialUpdate implements IWandRodOnUpdate {
 
+    @Override
     public void onUpdate(ItemStack stack, EntityPlayer player) {
-        Aspect[] aspects;
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
+        assert wand != null;
         AspectList list = wand.getAllVis(stack);
-        for (Aspect aspect : aspects = list.getAspects()) {
+        for (Aspect aspect : list.getAspects()) {
             if (list.getAmount(aspect) <= 1000 || player.worldObj.rand.nextInt(100) > 10) continue;
             wand.consumeVis(stack, player, aspect, 100, false);
         }

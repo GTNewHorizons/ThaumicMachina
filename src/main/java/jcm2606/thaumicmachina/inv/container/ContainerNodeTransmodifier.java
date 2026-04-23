@@ -11,7 +11,7 @@ import jcm2606.thaumicmachina.tile.TileNodeTransmodifier;
 
 public class ContainerNodeTransmodifier extends TMContainer {
 
-    public TileNodeTransmodifier tileTransmodifier;
+    public final TileNodeTransmodifier tileTransmodifier;
 
     public ContainerNodeTransmodifier(TileNodeTransmodifier tileTransmodifier, InventoryPlayer playerInv) {
         super(playerInv);
@@ -31,6 +31,7 @@ public class ContainerNodeTransmodifier extends TMContainer {
         }
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer p_75145_1_) {
         return true;
     }

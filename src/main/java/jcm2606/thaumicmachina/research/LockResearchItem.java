@@ -12,7 +12,7 @@ import thaumcraft.api.aspects.AspectList;
 
 public class LockResearchItem extends TMResearchItem {
 
-    public ArrayList<LockResearchItem> boundResearchItems = new ArrayList();
+    public final ArrayList<LockResearchItem> boundResearchItems = new ArrayList<>();
 
     public LockResearchItem(String key) {
         super(key);
@@ -29,16 +29,13 @@ public class LockResearchItem extends TMResearchItem {
     }
 
     public boolean checkLockout(EntityPlayer player) {
-        boolean b = false;
         for (LockResearchItem item : this.boundResearchItems) {
-            if (b) {
+            if (ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), item.key)) {
                 this.setHidden();
                 item.setHidden();
+                return true;
             }
-            if (!ThaumcraftApiHelper.isResearchComplete((String) player.getCommandSenderName(), (String) item.key))
-                continue;
-            b = true;
         }
-        return b;
+        return false;
     }
 }
