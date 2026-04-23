@@ -1,0 +1,59 @@
+
+package jcm2606.thaumicmachina.wand.augmentation;
+
+import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
+import jcm2606.thaumicmachina.wand.augmentation.AugmentationTaintedCore;
+import net.minecraft.item.ItemStack;
+import thaumcraft.api.ItemApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.wands.WandRod;
+import thaumcraft.common.items.wands.ItemWandCasting;
+
+public class AugmentationTaintCapping
+implements IAugmentationWand {
+    @Override
+    public String getAugmentationName() {
+        return "Taint Capping";
+    }
+
+    @Override
+    public String getAugmentationResearch() {
+        return "WAND_AUGMENTATION_TAINT_CAPPING";
+    }
+
+    @Override
+    public String getRecipeName() {
+        return "TM_WA_TAINT_CAPPING";
+    }
+
+    @Override
+    public int getInfusionInstability() {
+        return 12;
+    }
+
+    @Override
+    public AspectList getInfusionAspects() {
+        return new AspectList().add(Aspect.TOOL, 16).add(Aspect.MAGIC, 24).add(Aspect.ENTROPY, 32).add(Aspect.TAINT, 48).add(Aspect.WATER, 32).add(Aspect.AURA, 16);
+    }
+
+    @Override
+    public ItemStack[] getInfusionComponents() {
+        return new ItemStack[]{ItemApi.getItem((String)"itemResource", (int)11), ItemApi.getItem((String)"itemResource", (int)15), ItemApi.getItem((String)"itemNugget", (int)5)};
+    }
+
+    @Override
+    public IAugmentationWand[] getPrerequisiteAugmentations() {
+        return new IAugmentationWand[]{new AugmentationTaintedCore()};
+    }
+
+    @Override
+    public boolean isCompatibleWith(WandRod rod) {
+        return true;
+    }
+
+    @Override
+    public void handleAugmentation(ItemStack stack, ItemWandCasting wand) {
+    }
+}
+

@@ -1,0 +1,17 @@
+[
+{
+  "modid": "ThaumicMachina",
+  "name": "Thaumic Machina",
+  "description": "Expanding Thaumcraft in a mechanical and conceptual way.",
+  "version": "0.2.1",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["jcm2606", "HuggableCreep"],
+  "credits": "Forge and FML guys, for Forge / FML, Azanor, for Thaumcraft. Thanks to HuggableCreep for lending a helping hand with textures.",
+  "logoFile": "assets/thaumicmachina/textures/fml/logo/logo.png",
+  "screenshots": [],
+  "requiredMods": ["Forge", "Thaumcraft"],
+  "dependencies": ["required-after:Thaumcraft"]
+}
+]
