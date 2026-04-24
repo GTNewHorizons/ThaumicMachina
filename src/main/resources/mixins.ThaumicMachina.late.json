@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5-GTNH",
+  "package": "jcm2606.thaumicmachina.mixins.late",
+  "refmap": "mixins.ThaumicMachina.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "thaumcraft.client.renderers.models.gear.MixinModelWand_Runes",
+    "thaumcraft.common.items.wands.MixinItemWandCasting_Augmentations"
+  ]
+}
