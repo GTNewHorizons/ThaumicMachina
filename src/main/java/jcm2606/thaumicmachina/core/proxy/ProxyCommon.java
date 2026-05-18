@@ -1,10 +1,6 @@
-
 package jcm2606.thaumicmachina.core.proxy;
 
 import net.minecraftforge.common.MinecraftForge;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.reflect.ClassPath;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -16,11 +12,15 @@ import jcm2606.thaumicmachina.core.TMObjects;
 import jcm2606.thaumicmachina.core.config.Config;
 import jcm2606.thaumicmachina.core.event.PlayerEventHandler;
 import jcm2606.thaumicmachina.core.handler.GuiHandler;
-import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import jcm2606.thaumicmachina.core.implement.IProxyBase;
 import jcm2606.thaumicmachina.item.node.ItemNodeAugmentation;
 import jcm2606.thaumicmachina.research.ResearchHelper;
 import jcm2606.thaumicmachina.wand.WandHelper;
+import jcm2606.thaumicmachina.wand.augmentation.AugmentationChargeBuffer;
+import jcm2606.thaumicmachina.wand.augmentation.AugmentationContactDischarge;
+import jcm2606.thaumicmachina.wand.augmentation.AugmentationTaintCapping;
+import jcm2606.thaumicmachina.wand.augmentation.AugmentationTaintedCore;
+import jcm2606.thaumicmachina.wand.augmentation.AugmentationVisChannel;
 import jcm2606.thaumicmachina.wand.augmentation.FluxWandTrigger;
 import thaumcraft.api.wands.WandTriggerRegistry;
 import thaumcraft.common.config.ConfigBlocks;
@@ -62,23 +62,11 @@ public class ProxyCommon implements IProxyBase {
     }
 
     public void registerWandAugmentations() {
-        ThaumicMachina.log.info("Registering Wand Augmentations...");
-        try {
-            ImmutableSet<ClassPath.ClassInfo> set = ClassPath.from(
-                (ClassLoader) this.getClass()
-                    .getClassLoader())
-                .getTopLevelClassesRecursive("jcm2606.thaumicmachina.wand.augmentation");
-            for (ClassPath.ClassInfo cinfo : set) {
-                Class<?> clas = Class.forName(cinfo.getName());
-                if (!IAugmentationWand.class.isAssignableFrom(clas)) continue;
-                ThaumicMachina.log.info("Discovered Wand Augmentation within class '{}'", cinfo.getName());
-                WandHelper.registerAugmentation((IAugmentationWand) clas.newInstance());
-            }
-        } catch (Exception e) {
-            ThaumicMachina.log.error("Augmentation loading has failed!");
-            ThaumicMachina.log.error(e);
-        }
-        ThaumicMachina.log.info("Wand Augmntation registration done");
+        WandHelper.registerAugmentation(new AugmentationChargeBuffer());
+        WandHelper.registerAugmentation(new AugmentationContactDischarge());
+        WandHelper.registerAugmentation(new AugmentationTaintCapping());
+        WandHelper.registerAugmentation(new AugmentationTaintedCore());
+        WandHelper.registerAugmentation(new AugmentationVisChannel());
     }
 
     public void registerEntities() {}

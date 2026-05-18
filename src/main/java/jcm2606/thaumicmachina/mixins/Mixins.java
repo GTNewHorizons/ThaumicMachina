@@ -7,32 +7,19 @@ import com.gtnewhorizon.gtnhmixins.builders.MixinBuilder;
 
 public enum Mixins implements IMixins {
 
-    WAND_AUGMENTATIONS(new TMBuilder().setRequired()
-        .addCommonMixins("thaumcraft.common.items.wands.MixinItemWandCasting_Augmentations")),
-    RUNE_RENDERING(new TMBuilder().setRequired()
-        .addCommonMixins("thaumcraft.client.renderers.models.gear.MixinModelWand_Runes"));
+    WAND_AUGMENTATIONS(
+        new MixinBuilder().addCommonMixins("thaumcraft.common.items.wands.MixinItemWandCasting_Augmentations")),
+    RUNE_RENDERING(new MixinBuilder().addCommonMixins("thaumcraft.client.renderers.models.gear.MixinModelWand_Runes"));
 
     private final MixinBuilder builder;
 
     Mixins(MixinBuilder builder) {
-        this.builder = builder;
+        this.builder = builder.setPhase(Phase.LATE);
     }
 
     @Nonnull
     @Override
     public MixinBuilder getBuilder() {
         return this.builder;
-    }
-
-    static class TMBuilder extends MixinBuilder {
-
-        public TMBuilder() {
-            setPhase(Phase.LATE);
-        }
-
-        public MixinBuilder setRequired() {
-            return super.setApplyIf(() -> true);
-        }
-
     }
 }

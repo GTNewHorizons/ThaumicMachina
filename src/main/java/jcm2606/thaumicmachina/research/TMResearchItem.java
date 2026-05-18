@@ -28,7 +28,6 @@ public class TMResearchItem extends ResearchItem {
         super("@" + key, "THAUMIC_MACHINA_CAT", tags, x, y, complexity, icon);
         if (concept) {
             this.setRound();
-            System.out.println(Settings.conceptResearchMode);
             if (Settings.conceptResearchMode == 1) {
                 this.setSecondary();
             } else if (Settings.conceptResearchMode == 2) {
@@ -44,7 +43,6 @@ public class TMResearchItem extends ResearchItem {
         super("@" + key, "THAUMIC_MACHINA_CAT", tags, x, y, complexity, icon);
         if (concept) {
             this.setRound();
-            System.out.println(Settings.conceptResearchMode);
             if (Settings.conceptResearchMode == 1) {
                 this.setSecondary();
             } else if (Settings.conceptResearchMode == 2) {
