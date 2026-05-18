@@ -32,7 +32,6 @@ public class ThaumicMachina {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        log.info("Mod loading has commenced, please be patient...");
         proxy.preInit(event);
     }
 
@@ -44,7 +43,6 @@ public class ThaumicMachina {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-        log.info("Mod loading has finished");
     }
 
     @Mod.EventHandler
