@@ -46,17 +46,17 @@ public class ResearchHelper {
         item.registerResearchItem();
         item = new DupResearchItem("TMTHAUMATURGY", CATEGORY_KEY, "BASICTHAUMATURGY", "THAUMATURGY", -8, 0, true);
         item.registerResearchItem();
-        ResearchHelper.loadNodalResearch(item);
-        ResearchHelper.loadVisResearch(item);
-        ResearchHelper.loadEssentiaResearch(item);
-        ResearchHelper.loadWandResearch(item);
-        ResearchHelper.loadEntityResearch(item);
-        ResearchHelper.loadCrimsonResearch(item);
+        ResearchHelper.loadNodalResearch();
+        ResearchHelper.loadVisResearch();
+        ResearchHelper.loadEssentiaResearch();
+        ResearchHelper.loadWandResearch();
+        ResearchHelper.loadEntityResearch();
+        ResearchHelper.loadCrimsonResearch();
         ThaumicMachina.log.info("Research loaded");
     }
 
-    private static void loadNodalResearch(ResearchItem item) {
-        item = new TMResearchItem(
+    private static void loadNodalResearch() {
+        ResearchItem item = new TMResearchItem(
             "NODAL_STUDIES",
             new AspectList().add(Aspect.ENERGY, 1)
                 .add(Aspect.AURA, 2)
@@ -86,8 +86,8 @@ public class ResearchHelper {
         item.registerResearchItem();
     }
 
-    private static void loadVisResearch(ResearchItem item) {
-        item = new TMResearchItem(
+    private static void loadVisResearch() {
+        ResearchItem item = new TMResearchItem(
             "VIS",
             new AspectList(),
             -1,
@@ -127,10 +127,10 @@ public class ResearchHelper {
         item.registerResearchItem();
     }
 
-    private static void loadEssentiaResearch(ResearchItem item) {}
+    private static void loadEssentiaResearch() {}
 
-    private static void loadWandResearch(ResearchItem item) {
-        item = new TMResearchItem(
+    private static void loadWandResearch() {
+        ResearchItem item = new TMResearchItem(
             "WAND_STUDIES",
             new AspectList().add(Aspect.MIND, 2)
                 .add(Aspect.MAGIC, 1)
@@ -158,7 +158,6 @@ public class ResearchHelper {
         item.setPages(
             new ResearchPage("tm.research.page.WAND_AUGMENTATION.1"),
             new ResearchPage("tm.research.page.WAND_AUGMENTATION.2"),
-            new ResearchPage("tm.research.page.WAND_AUGMENTATION.3"),
             new ResearchPage((IArcaneRecipe) ConfigResearch.recipes.get("TM_WAND_AUGMENTATION_CORE")));
         item.setParents("@WAND_STUDIES");
         item.setParentsHidden("INFUSION");
@@ -182,19 +181,6 @@ public class ResearchHelper {
         item.setParents("@WAND_AUGMENTATION");
         item.registerResearchItem();
         item = new TMResearchItem(
-            "WAND_STABILITY",
-            null,
-            -10,
-            -3,
-            0,
-            new ResourceLocation("ThaumicMachina:textures/research/r_wand_stability.png"),
-            false);
-        ResearchHelper.setPageCount(item);
-        item.setParents("@WAND_AUGMENTATION");
-        item.setStub();
-        item.setRound();
-        item.registerResearchItem();
-        item = new TMResearchItem(
             "WAND_AUGMENTATION_VIS_CHANNEL",
             new AspectList().add(Aspect.TOOL, 1)
                 .add(Aspect.MAGIC, 1)
@@ -206,7 +192,8 @@ public class ResearchHelper {
             false);
         item.setPages(
             new ResearchPage("tm.research.page.WAND_AUGMENTATION_VIS_CHANNEL.1"),
-            new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_VIS_CHANNEL")));
+            new ResearchPage((InfusionRecipe) ConfigResearch.recipes.get("TM_WA_VIS_CHANNEL")),
+            new ResearchPage("tm.research.page.WAND_AUGMENTATION_VIS_CHANNEL.3"));
         item.setConcealed();
         item.setParents("@WAND_AUGMENTATION");
         item.registerResearchItem();
@@ -270,10 +257,10 @@ public class ResearchHelper {
         ThaumcraftApi.addWarpToResearch("@WAND_AUGMENTATION_CONTACT_DISCHARGE", 1);
     }
 
-    private static void loadEntityResearch(ResearchItem item) {}
+    private static void loadEntityResearch() {}
 
-    private static void loadCrimsonResearch(ResearchItem item) {
-        item = new TMResearchItem(
+    private static void loadCrimsonResearch() {
+        ResearchItem item = new TMResearchItem(
             "CRIMSON_PHILOSOPHY",
             new AspectList(),
             4,
