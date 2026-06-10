@@ -15,8 +15,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
-import com.google.common.collect.Iterables;
-
 import jcm2606.thaumicmachina.core.helper.ArrayHelper;
 import jcm2606.thaumicmachina.core.helper.NBTHelper;
 import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
@@ -120,9 +118,7 @@ public class TMCommand extends CommandBase {
             if (args.length == 2) {
                 return getListOfStringsMatchingLastWord(args, OPERATIONS);
             } else if (args.length == 3 && ("add".equals(args[1]) || "remove".equals(args[1]))) {
-                return getListOfStringsFromIterableMatchingLastWord(
-                    args,
-                    Iterables.transform(WandHelper.augmentationMap.keySet(), name -> name.replace(' ', '_')));
+                return getListOfStringsFromIterableMatchingLastWord(args, WandHelper.augmentationIDs);
             }
         }
         return null;

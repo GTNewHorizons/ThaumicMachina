@@ -20,9 +20,11 @@ import thaumcraft.common.config.ConfigItems;
 public class WandHelper {
 
     public static final HashMap<String, IAugmentationWand> augmentationMap = new HashMap<>();
+    public static final List<String> augmentationIDs = new ArrayList<>();
 
     public static void registerAugmentation(IAugmentationWand augmentation) {
         augmentationMap.putIfAbsent(augmentation.getID(), augmentation);
+        augmentationIDs.add(augmentation.getID());
 
         if (augmentation.getAliasID() != null) {
             augmentationMap.putIfAbsent(augmentation.getAliasID(), augmentation);
