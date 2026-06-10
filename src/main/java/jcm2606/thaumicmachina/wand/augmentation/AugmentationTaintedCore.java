@@ -15,7 +15,12 @@ public class AugmentationTaintedCore implements IAugmentationWand {
     public static final AugmentationTaintedCore INSTANCE = new AugmentationTaintedCore();
 
     @Override
-    public String getAugmentationName() {
+    public String getID() {
+        return "tainted_core";
+    }
+
+    @Override
+    public String getAliasID() {
         return "Tainted Core";
     }
 

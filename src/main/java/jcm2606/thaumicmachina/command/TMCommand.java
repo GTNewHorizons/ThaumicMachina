@@ -82,26 +82,26 @@ public class TMCommand extends CommandBase {
         } else {
             if (args.length != 3) throw new WrongUsageException("tm.command.thaumicmachina.wandaugmentation.usage");
 
-            final String augment = args[2].replace('_', ' ');
-            if (!WandHelper.augmentationMap.containsKey(augment)) {
+            final IAugmentationWand augment = WandHelper.augmentationMap.get(args[2]);
+            if (augment == null) {
                 throw new CommandException("tm.command.thaumicmachina.error.unknown_augment");
             }
 
-            final String[] wandAugments = WandHelper.getAugmentationNames(stack);
+            final List<IAugmentationWand> wandAugments = WandHelper.getAugmentations(stack);
 
             if ("add".equals(args[1])) {
-                if (ArrayHelper.contains(wandAugments, augment)) {
+                if (wandAugments.contains(augment)) {
                     throw new CommandException("tm.command.thaumicmachina.error.is_present");
                 }
 
-                IAugmentationWand[] augmentationList = { WandHelper.augmentationMap.get(augment) };
+                IAugmentationWand[] augmentationList = { augment };
                 WandHelper.addAugmentationsTo(stack, augmentationList, false);
             } else if ("remove".equals(args[1])) {
-                if (!ArrayHelper.contains(wandAugments, augment)) {
+                if (!wandAugments.contains(augment)) {
                     throw new CommandException("tm.command.thaumicmachina.error.is_absent");
                 }
 
-                IAugmentationWand[] augmentationList = { WandHelper.augmentationMap.get(augment) };
+                IAugmentationWand[] augmentationList = { augment };
                 WandHelper.removeAugmentationsFrom(stack, augmentationList, false);
             }
         }

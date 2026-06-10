@@ -9,6 +9,11 @@ item.wandAugmentationCore.name=Wand Augmentation Core
 tm.tooltip.augments_installed=Augmentations installed:
 tm.tooltip.augmented=Augmented
 tm.tooltip.hold_control=Hold [CTRL]
+tm.augmentation.charge_buffer=Charge Buffer
+tm.augmentation.contact_discharge=Contact Discharge
+tm.augmentation.taint_capping=Taint Capping
+tm.augmentation.tainted_core=Tainted Core
+tm.augmentation.vis_channel=Vis Channel
 
 # Commands
 tm.command.thaumicmachina.usage=/thaumicmachina <help|wandaugmentation> ...

@@ -10,6 +10,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import jcm2606.thaumicmachina.core.implement.IAugmentationWand;
 import jcm2606.thaumicmachina.wand.WandHelper;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
@@ -27,8 +28,9 @@ public class RenderEventHandler {
         if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
             event.toolTip.add(GOLD + StatCollector.translateToLocal("tm.tooltip.augments_installed"));
 
-            for (String string : WandHelper.getAugmentationNames(stack)) {
-                event.toolTip.add(DARK_GRAY + " " + string);
+            for (IAugmentationWand augment : WandHelper.getAugmentations(stack)) {
+                event.toolTip
+                    .add(DARK_GRAY + " " + StatCollector.translateToLocal("tm.augmentation." + augment.getID()));
             }
         } else {
             event.toolTip.add(GOLD + StatCollector.translateToLocal("tm.tooltip.augmented"));

@@ -15,7 +15,12 @@ public class AugmentationTaintCapping implements IAugmentationWand {
     public static final AugmentationTaintCapping INSTANCE = new AugmentationTaintCapping();
 
     @Override
-    public String getAugmentationName() {
+    public String getID() {
+        return "taint_capping";
+    }
+
+    @Override
+    public String getAliasID() {
         return "Taint Capping";
     }
 
