@@ -62,11 +62,11 @@ public class ProxyCommon implements IProxyBase {
     }
 
     public void registerWandAugmentations() {
-        WandHelper.registerAugmentation(new AugmentationChargeBuffer());
-        WandHelper.registerAugmentation(new AugmentationContactDischarge());
-        WandHelper.registerAugmentation(new AugmentationTaintCapping());
-        WandHelper.registerAugmentation(new AugmentationTaintedCore());
-        WandHelper.registerAugmentation(new AugmentationVisChannel());
+        WandHelper.registerAugmentation(AugmentationChargeBuffer.INSTANCE);
+        WandHelper.registerAugmentation(AugmentationContactDischarge.INSTANCE);
+        WandHelper.registerAugmentation(AugmentationTaintCapping.INSTANCE);
+        WandHelper.registerAugmentation(AugmentationTaintedCore.INSTANCE);
+        WandHelper.registerAugmentation(AugmentationVisChannel.INSTANCE);
     }
 
     public void registerEntities() {}

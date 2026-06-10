@@ -14,8 +14,15 @@ public class AugmentationChargeBuffer implements IAugmentationWand {
 
     public static final AugmentationChargeBuffer INSTANCE = new AugmentationChargeBuffer();
 
+    protected AugmentationChargeBuffer() {}
+
     @Override
-    public String getAugmentationName() {
+    public String getID() {
+        return "charge_buffer";
+    }
+
+    @Override
+    public String getAliasID() {
         return "Charge Buffer";
     }
 

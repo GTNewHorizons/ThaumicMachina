@@ -9,7 +9,11 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 
 public interface IAugmentationWand {
 
-    String getAugmentationName();
+    String getID();
+
+    default String getAliasID() {
+        return null;
+    }
 
     String getAugmentationResearch();
 

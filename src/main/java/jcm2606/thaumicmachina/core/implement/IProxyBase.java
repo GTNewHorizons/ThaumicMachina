@@ -13,8 +13,4 @@ public interface IProxyBase {
 
     void postInit(FMLPostInitializationEvent var1);
 
-    interface IProxyClient extends IProxyBase {
-
-        void loadRendering();
-    }
 }

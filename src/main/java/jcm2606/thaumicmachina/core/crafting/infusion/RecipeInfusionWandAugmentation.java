@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
 
 import jcm2606.thaumicmachina.core.TMObjects;
@@ -107,12 +108,8 @@ public class RecipeInfusionWandAugmentation extends InfusionRecipe {
     public ItemStack getRecipeOutput(ItemStack inputStack) {
         ItemStack stack = inputStack.copy();
         NBTTagCompound compound = NBTHelper.getCompoundFor(stack);
-        NBTTagList list = new NBTTagList();
-        if (compound.getTagList("Augmentations", 8) != null) {
-            list = compound.getTagList("Augmentations", 8);
-        }
-        NBTTagString tag = new NBTTagString(this.augmentation.getAugmentationName());
-        list.appendTag(tag);
+        NBTTagList list = compound.getTagList("Augmentations", Constants.NBT.TAG_STRING);
+        list.appendTag(new NBTTagString(this.augmentation.getID()));
         compound.setTag("Augmentations", list);
         return stack;
     }

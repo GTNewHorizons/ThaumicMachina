@@ -14,8 +14,15 @@ public class AugmentationContactDischarge implements IAugmentationWand {
 
     public static final AugmentationContactDischarge INSTANCE = new AugmentationContactDischarge();
 
+    protected AugmentationContactDischarge() {}
+
     @Override
-    public String getAugmentationName() {
+    public String getID() {
+        return "contact_discharge";
+    }
+
+    @Override
+    public String getAliasID() {
         return "Contact Discharge";
     }
 
