@@ -14,6 +14,8 @@ public class AugmentationVisChannel implements IAugmentationWand {
 
     public static final AugmentationVisChannel INSTANCE = new AugmentationVisChannel();
 
+    protected AugmentationVisChannel() {}
+
     @Override
     public String getID() {
         return "vis_channel";
