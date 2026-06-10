@@ -11,13 +11,12 @@ import jcm2606.thaumicmachina.client.event.RenderEventHandler;
 import jcm2606.thaumicmachina.client.render.tile.RenderMetaphysical;
 import jcm2606.thaumicmachina.client.render.tile.RenderMetaphysicalPlant;
 import jcm2606.thaumicmachina.client.render.tile.RenderNodeTransmodifier;
-import jcm2606.thaumicmachina.core.implement.IProxyBase;
 import jcm2606.thaumicmachina.core.proxy.ProxyCommon;
 import jcm2606.thaumicmachina.tile.TileNodeTransmodifier;
 import jcm2606.thaumicmachina.tile.metaphysical.TileMetaphysical;
 import jcm2606.thaumicmachina.tile.metaphysical.TileMetaphysicalRose;
 
-public class ProxyClient extends ProxyCommon implements IProxyBase.IProxyClient {
+public class ProxyClient extends ProxyCommon {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -38,6 +37,4 @@ public class ProxyClient extends ProxyCommon implements IProxyBase.IProxyClient 
         super.postInit(event);
     }
 
-    @Override
-    public void loadRendering() {}
 }
