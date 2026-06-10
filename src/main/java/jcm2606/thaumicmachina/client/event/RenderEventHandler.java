@@ -1,8 +1,10 @@
 
 package jcm2606.thaumicmachina.client.event;
 
+import static net.minecraft.util.EnumChatFormatting.*;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 import org.lwjgl.input.Keyboard;
@@ -21,14 +23,16 @@ public class RenderEventHandler {
             || !WandHelper.hasAugmentations(stack)) {
             return;
         }
+
         if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
-            event.toolTip.add(EnumChatFormatting.GOLD + "Augmentations installed:");
+            event.toolTip.add(GOLD + StatCollector.translateToLocal("tm.tooltip.augments_installed"));
+
             for (String string : WandHelper.getAugmentationNames(stack)) {
-                event.toolTip.add(EnumChatFormatting.DARK_GRAY + (" " + string));
+                event.toolTip.add(DARK_GRAY + " " + string);
             }
         } else {
-            event.toolTip.add(EnumChatFormatting.GOLD + "Augmented");
-            event.toolTip.add(EnumChatFormatting.GOLD + "Hold CONTROL");
+            event.toolTip.add(GOLD + StatCollector.translateToLocal("tm.tooltip.augmented"));
+            event.toolTip.add(GOLD + StatCollector.translateToLocal("tm.tooltip.hold_control"));
         }
     }
 }

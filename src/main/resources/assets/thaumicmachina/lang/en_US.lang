@@ -5,6 +5,11 @@ tile.nodeTransmodifier.name=Node Transmodifier
 item.nodeAugmentation.name=Node Augmentation
 item.wandAugmentationCore.name=Wand Augmentation Core
 
+# Augments
+tm.tooltip.augments_installed=Augmentations installed:
+tm.tooltip.augmented=Augmented
+tm.tooltip.hold_control=Hold [CTRL]
+
 # Commands
 tm.command.thaumicmachina.usage=/thaumicmachina <help|wandaugmentation> ...
 tm.command.thaumicmachina.hint_alias=You can also use /tm in place of /thaumimachina.
