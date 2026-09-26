@@ -1,17 +1,19 @@
 package jcm2606.thaumicmachina.mixins.late.thaumcraft.common.items.wands;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import jcm2606.thaumicmachina.wand.WandHelper;
 import jcm2606.thaumicmachina.wand.augmentation.AugmentationChargeBuffer;
 import jcm2606.thaumicmachina.wand.augmentation.AugmentationVisChannel;
-import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 @Mixin(value = ItemWandCasting.class, remap = false)
@@ -24,24 +26,35 @@ public class MixinItemWandCasting_Augmentations {
     @WrapMethod(method = "getMaxVis")
     public int tm$chargeBuffer(ItemStack stack, Operation<Integer> original) {
         Integer capacity = original.call(stack);
-        if (WandHelper.hasAugmentation(stack, AugmentationChargeBuffer.INSTANCE)) {
-            capacity = capacity * 5 / 4; // *= 1.25
-        }
-        return capacity;
+        // * 5 / 4 == *= 1.25 with int math
+        return WandHelper.hasAugmentation(stack, AugmentationChargeBuffer.INSTANCE) ? capacity * 5 / 4 : capacity;
     }
 
     /**
      * @author koolkrafter5
      * @reason Apply Vis Channel's 10% discount to vis cost.
      */
-    @WrapMethod(method = "getConsumptionModifier")
-    public float tm$visChannel(ItemStack stack, EntityPlayer player, Aspect aspect, boolean crafting,
-        Operation<Float> original) {
-        Float modifier = original.call(stack, player, aspect, crafting);
-        if (WandHelper.hasAugmentation(stack, AugmentationVisChannel.INSTANCE)) {
-            modifier = Math.max(0.1f, modifier * 0.9f);
-        }
-        return modifier;
+    @ModifyExpressionValue(
+        method = "getConsumptionModifier",
+        at = @At(value = "INVOKE", target = "Lthaumcraft/api/wands/WandCap;getBaseCostModifier()F"))
+    private float tm$baseCostModifier(float modifier, @Local(name = "is", argsOnly = true) ItemStack is) {
+        return tm$visChannel(is, modifier);
+    }
+
+    /**
+     * @author koolkrafter5
+     * @reason Apply Vis Channel's 10% discount to vis cost.
+     */
+    @ModifyExpressionValue(
+        method = "getConsumptionModifier",
+        at = @At(value = "INVOKE", target = "Lthaumcraft/api/wands/WandCap;getSpecialCostModifier()F"))
+    private float tm$specialCostModifier(float modifier, @Local(name = "is", argsOnly = true) ItemStack is) {
+        return tm$visChannel(is, modifier);
+    }
+
+    @Unique
+    private float tm$visChannel(ItemStack stack, float modifier) {
+        return WandHelper.hasAugmentation(stack, AugmentationVisChannel.INSTANCE) ? modifier * 0.9f : modifier;
     }
 
     /**
